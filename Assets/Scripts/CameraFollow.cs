@@ -65,7 +65,7 @@ public class CameraFollow : MonoBehaviour
         {
             if(effectTime>0)
             {
-                Debug.Log(effectTime);
+                //Debug.Log(effectTime);
                 effectTime -= Time.deltaTime;
                 chrA.intensity.value = effectTime/2;
             }
