@@ -17,4 +17,30 @@ public class EntityManager : MonoBehaviour
     {
         
     }
+
+
+    #region Movement
+
+    //Public methods for moving
+    public void MoveForward()
+    {
+
+    }
+
+    public void MoveBackward()
+    {
+
+    }
+
+    public void MoveLeft()
+    {
+
+    }
+
+    public void MoveRight()
+    {
+
+    }
+
+    #endregion
 }

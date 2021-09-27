@@ -8,6 +8,8 @@ public class DebugController : MonoBehaviour
     string input;
 
     public static DebugCommand<int> TIME_SCALE;
+    public static DebugCommand PAUSE;
+    public static DebugCommand UNPAUSE;
 
     public List<object> commandList;
 
@@ -32,9 +34,21 @@ public class DebugController : MonoBehaviour
             Time.timeScale = x;
         });
 
+        PAUSE = new DebugCommand("pause", "Pauses the actual simulation.", "pause", ()=>
+        {
+            Time.timeScale = 0;
+        });
+
+        UNPAUSE = new DebugCommand("unpause", "Pauses the actual simulation.", "unpause", () =>
+        {
+            Time.timeScale = 1;
+        });
+
         commandList = new List<object>
         {
             TIME_SCALE,
+            PAUSE,
+            UNPAUSE
         };
     }
 
