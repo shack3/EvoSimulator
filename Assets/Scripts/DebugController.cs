@@ -29,9 +29,11 @@ public class DebugController : MonoBehaviour
 
     private void Awake()
     {
+        int actualScale = 1;
         TIME_SCALE = new DebugCommand<int>("time.scale", "Sets the Time Scale", "time.scale", (x)=>
         {
-            Time.timeScale = x;
+            actualScale = x;
+            Time.timeScale = actualScale;
         });
 
         PAUSE = new DebugCommand("pause", "Pauses the actual simulation.", "pause", ()=>
@@ -41,7 +43,7 @@ public class DebugController : MonoBehaviour
 
         UNPAUSE = new DebugCommand("unpause", "Pauses the actual simulation.", "unpause", () =>
         {
-            Time.timeScale = 1;
+            Time.timeScale = actualScale;
         });
 
         commandList = new List<object>

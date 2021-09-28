@@ -1,24 +1,19 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Scripts.csproj", "{B4597245-C684-5390-B020-37A00FFB73BC}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Scripts.csproj", "{457259b4-84c6-9053-b020-37a00ffb73bc}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{0049143B-33D0-6184-7AA3-526040E2152F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests.csproj", "{3b144900-d033-8461-7aa3-526040e2152f}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4597245-C684-5390-B020-37A00FFB73BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B4597245-C684-5390-B020-37A00FFB73BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B4597245-C684-5390-B020-37A00FFB73BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B4597245-C684-5390-B020-37A00FFB73BC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0049143B-33D0-6184-7AA3-526040E2152F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0049143B-33D0-6184-7AA3-526040E2152F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0049143B-33D0-6184-7AA3-526040E2152F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0049143B-33D0-6184-7AA3-526040E2152F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{457259b4-84c6-9053-b020-37a00ffb73bc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{457259b4-84c6-9053-b020-37a00ffb73bc}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3b144900-d033-8461-7aa3-526040e2152f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3b144900-d033-8461-7aa3-526040e2152f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
