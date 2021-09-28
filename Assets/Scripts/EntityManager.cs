@@ -7,7 +7,7 @@ public class EntityManager : MonoBehaviour
     private Rigidbody rb;
     public float movementSpeed;
     float horizontal;
-    float vertical;
+    public float vertical;
     private void Awake()
     {
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
@@ -28,25 +28,36 @@ public class EntityManager : MonoBehaviour
     // W1 D1 A-1 S-1
     public void MoveForward()
     {
-        horizontal = 0;
-        vertical = 1;
+        horizontal += 0;
+        vertical += 1;
     }
 
     public void MoveBackward()
     {
-        horizontal = 0;
-        vertical = -1;
+        horizontal += 0;
+        vertical += -1;
     }
 
     public void MoveLeft()
     {
-        horizontal = -1;
-        vertical = 0;
+        horizontal += -1;
+        vertical += 0;
     }
 
     public void MoveRight()
     {
-        horizontal = 1;
+        horizontal += 1;
+        vertical += 0;
+    }
+
+    public float MoveStatus()
+    {
+        return horizontal * 10 + vertical;
+    }
+    
+    public void MoveReset()
+    {
+        horizontal = 0;
         vertical = 0;
     }
 
