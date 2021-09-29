@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Earth
   - Entity
+  - Sun
   layers:
   - Default
   - TransparentFX

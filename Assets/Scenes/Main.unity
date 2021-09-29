@@ -812,9 +812,10 @@ GameObject:
   - component: {fileID: 1007875492}
   - component: {fileID: 1007875491}
   - component: {fileID: 1007875495}
+  - component: {fileID: 1007875496}
   m_Layer: 0
   m_Name: Sun
-  m_TagString: Untagged
+  m_TagString: Sun
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -913,6 +914,19 @@ MonoBehaviour:
   target: {fileID: 1496733755}
   speed: 11
   angle: {x: 0, y: 1, z: 0}
+--- !u!135 &1007875496
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007875490}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.734992
+  m_Center: {x: -2.2349966, y: 0, z: 0}
 --- !u!4 &1188800085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 116687138493650698, guid: 1b7f1974bba2e3f47a5b2d0dbd886088, type: 3}

@@ -1,67 +1,66 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class UnitTest1 : MonoBehaviour
+namespace Tests
 {
-    public Transform Prefab;
-
-    [UnityTest]
-    public IEnumerator Test_Movement()
+    public class UnitTest1
     {
-        String aux;
-        float result,expected;
-        GameObject gameGameObject = GameObject.Find("Entity");
-        
-        for (int i = 0; i < 16; i++)
+        public Transform prefab;
+
+        [UnityTest]
+        public IEnumerator Test_Movement()
         {
-            expected = 0f;
-            aux = ToBinary(i);
-            if (aux[0] == '1')
+            var gameGameObject = GameObject.Find("Entity");
+        
+            for (var i = 0; i < 16; i++)
             {
-                gameGameObject.GetComponent<EntityManager>().MoveBackward();
-                expected += -1.0f;
-            }
-            if (aux[1] == '1')
-            {
-                gameGameObject.GetComponent<EntityManager>().MoveForward();
-                expected += +1.0f;
-            }
-            if (aux[2] == '1')
-            {
-                gameGameObject.GetComponent<EntityManager>().MoveLeft();
-                expected += -10.0f;
-            }
-            if (aux[3] == '1')
-            {
-                gameGameObject.GetComponent<EntityManager>().MoveRight();
-                expected += +10.0f;
-            }
-            result = gameGameObject.GetComponent<EntityManager>().MoveStatus();
-            Assert.AreEqual(result, expected,aux);
-            gameGameObject.GetComponent<EntityManager>().MoveReset();
+                var expected = 0f;
+                var aux = ToBinary(i);
+                if (aux[0] == '1')
+                {
+                    gameGameObject.GetComponent<EntityManager>().MoveBackward();
+                    expected += -1.0f;
+                }
+                if (aux[1] == '1')
+                {
+                    gameGameObject.GetComponent<EntityManager>().MoveForward();
+                    expected += +1.0f;
+                }
+                if (aux[2] == '1')
+                {
+                    gameGameObject.GetComponent<EntityManager>().MoveLeft();
+                    expected += -10.0f;
+                }
+                if (aux[3] == '1')
+                {
+                    gameGameObject.GetComponent<EntityManager>().MoveRight();
+                    expected += +10.0f;
+                }
+                var result = gameGameObject.GetComponent<EntityManager>().MoveStatus();
+                Assert.AreEqual(result, expected,aux);
+                gameGameObject.GetComponent<EntityManager>().MoveReset();
 
-        }//aux = 0101
-        yield return null;
+            }//aux = 0101
+            yield return null;
+        }
+
+
+        private static string ToBinary(int myValue)
+        {
+            var binVal = Convert.ToString(myValue, 2);
+            var bits = 0;
+            var bitblock = 4;
+
+            for (var i = 0; i < binVal.Length; i += bitblock)
+            { bits += bitblock; }
+
+            return binVal.PadLeft(bits, '0');
+        }
+    
     }
-    
-    
-    
-    public static string ToBinary(int myValue)
-    {
-        string binVal = Convert.ToString(myValue, 2);
-        int bits = 0;
-        int bitblock = 4;
-
-        for (int i = 0; i < binVal.Length; i = i + bitblock)
-        { bits += bitblock; }
-
-        return binVal.PadLeft(bits, '0');
-    }
-    
 }
 
 

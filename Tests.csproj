@@ -12,7 +12,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{3b144900-d033-8461-7aa3-526040e2152f}</ProjectGuid>
+    <ProjectGuid>{fe5b42db-6139-90cf-f0da-94a98984e975}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -281,7 +281,7 @@
      <HintPath>A:/UNITY/2021.1.22f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
      </Reference>
      <Reference Include="nunit.framework">
-     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
+     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/3D_World/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
      </Reference>
      <Reference Include="mscorlib">
      <HintPath>A:/UNITY/2021.1.22f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -632,21 +632,21 @@
      <HintPath>A:/UNITY/2021.1.22f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.TestRunner">
-     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/3D_World/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.TestRunner">
-     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/3D_World/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
      </Reference>
      <Reference Include="UnityEditor.UI">
-     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/3D_World/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
      </Reference>
      <Reference Include="UnityEngine.UI">
-     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+     <HintPath>A:/Documents/Pagina GIT/EvoSimulator/3D_World/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
      </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Scripts.csproj">
-      <Project>{457259b4-84c6-9053-b020-37a00ffb73bc}</Project>
+      <Project>{8875d58f-b698-a04c-54f9-1d4edfdcc7ec}</Project>
       <Name>Scripts</Name>
     </ProjectReference>
   </ItemGroup>
