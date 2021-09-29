@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using Unity.Plastic.Antlr3.Runtime.Misc;
 using UnityEngine;
 
+
 delegate float HardnessEater();
 
 public class EntityManager : MonoBehaviour
 {
     private Rigidbody rb;
-
+    
+    #region REF_BC_1
+    
     public int age;
-    public float energy, bulk, movementEfficiency, movementSpeed;
+    public float energy, bulk;
+    
+    public float movementCost;
+    public float movementSpeed;   
+            
+    #endregion
+
+    public Genome genome;
     
     
     
@@ -19,8 +29,21 @@ public class EntityManager : MonoBehaviour
     {
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         rb = GetComponent<Rigidbody>();
+        genome = new Genome();
+        age = 1;
+        energy = 100;
+        bulk = 1;
     }
 
+    private void Assign_Movement_Cost()
+    {
+        movementCost = 1 / (genome.Maximum_Bulk - bulk);
+    }
+
+    private void Assign_movementSpeed()
+    {
+        movementSpeed = energy / age;
+    }
 
     private void Update()
     {
