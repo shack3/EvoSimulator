@@ -17,7 +17,7 @@ RO_5 - The modifications on the genetic code happens between generations base on
 * [ ] Only Photosynthesis(*REF_NK_1*) allowed for entities
   * [ ] Only entities in the collider of the ligth source will get energy
 * [ ] Only Mitosis / Bipartition (*REF_RK_4*) allowed for entities
-* [ ] Entities Maximum Bulk = 1 unit
+* [x] Entities Maximum Bulk = 1 unit
 * [ ] The energy espenditure in a lifecycle of the entities is defined by:
   * [ ] Reproduction Efficiency
   * [ ] Energy cost by Bulk
@@ -90,12 +90,15 @@ REF_BC_1
     * A larger Bulk allows to storage more energy
   
 
-* Movement Efficiency : Defines the energy cost for each movement unity
-    * Inversely proportional to the Bulk
+* Movement Cost : Defines the energy cost for each movement unity
+    * Proportional to the diference bwteen the Bulk and the Maximum Bulk
+    * Equation : 1 / (genome.Maximum_Bulk - bulk)
   
 
 * Movement speed : Defines the movement speed of the being, 
 	* Inversely proportional to the Age
+	* Porportional to the energy
+	* Ecuation : energy / age
 	
 
 ## 6.2 Activities 
