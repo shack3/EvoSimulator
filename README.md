@@ -14,8 +14,8 @@ RO_5 - The modifications on the genetic code happens between generations base on
 * [x] The entities change the color with selection
 * [x] The entities can move across the surface of the sphere
 * [x] Terminal for control command input
-* [ ] Only Photosynthesis(*REF_NK_1*) allowed for entities
-  * [ ] Only entities in the collider of the ligth source will get energy
+* [x] Only Photosynthesis(*REF_NK_1*) allowed for entities
+  * [x] Only entities in the collider of the ligth source will get energy
 * [ ] Only Mitosis / Bipartition (*REF_RK_4*) allowed for entities
 * [x] Entities Maximum Bulk = 1 unit
 * [ ] The energy espenditure in a lifecycle of the entities is defined by:
