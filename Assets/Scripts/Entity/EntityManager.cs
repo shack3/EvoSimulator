@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Plastic.Antlr3.Runtime.Misc;
@@ -19,40 +20,36 @@ public class EntityManager : MonoBehaviour
     public float movementSpeed;   
             
     #endregion
-
-    public Genome genome;
     
     
-    
+    //Unity Functions
     
     private void Awake()
     {
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         rb = GetComponent<Rigidbody>();
-        genome = new Genome();
         age = 1;
         energy = 100;
         bulk = 1;
     }
 
-    private void Assign_Movement_Cost()
-    {
-        movementCost = 1 / (genome.Maximum_Bulk - bulk);
-    }
-
-    private void Assign_movementSpeed()
-    {
-        movementSpeed = energy / age;
-    }
-
     private void Update()
     {
-        var sun = GameObject.FindWithTag("Sun");
-        energy = Eat(Photosintetic, HardnessEater, sun);
-        Debug.Log(energy);
+        Eat();
     }
 
-    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Sun")
+            imOnSun = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Sun")
+            imOnSun = false;
+    }
+
 
     #region Movement
     
@@ -115,36 +112,82 @@ public class EntityManager : MonoBehaviour
     }
 
     #endregion
+    
+    /*private void Assign_Movement_Cost()
+    {
+        movementCost = 1 / (Genome.Maximum_Bulk - bulk);
+    }
 
-    #region Eating
+    private void Assign_movementSpeed()
+    {
+        movementSpeed = energy / age;
+    }
+    */
+
+    #region <-------------------------------> GENOME <-------------------------------
+
+    //https://github.com/shack3/EvoSimulator/tree/Documentation#52-genetic-characteristics
 
     
     
-    private float Eat(System.Func<Transform, float> photosintetic, HardnessEater hardnessEater, GameObject gameObject)
+    
+    #region General-REF_GC_1
+
+    public bool photosynthetic;
+    public bool imOnSun;
+    
+    public float Aging = 0.05f;
+    public float Maximum_Bulk = 1f;
+    public float Energy_cost_by_Bulk = 0.01f;
+    public float Physical_Hardness = 1f;
+    public float Photosynthesis_Efficiency = 1;
+    
+    #endregion
+    
+    #region Nutrition_Related-REF_GC_2
+
+    public bool hardEater;
+    
+    public float Ability_to_Eat_Hardness = 0;
+    public float Efficiency_to_Digest_Hardness = 0;
+    
+    
+    #endregion
+    
+    #region Reproduction_Related-REF_GC_3
+
+    public int Birth_Cycles = 1;
+    public float Reproduction_Efficiency = 1;
+    public int Genetic_Sex = 1;
+    public int Sexual_Maturity = 4;
+        
+    #endregion
+
+
+
+
+    #region Eat
+    public void Eat()
     {
-        var sun = GameObject.FindWithTag("Sun");
-        if(gameObject.CompareTag("Sun")) //<- IM PHOTOSINTETIC
-            return photosintetic(sun.transform);
-        else
-            return hardnessEater();
+        if (photosynthetic)
+        {
+            if (imOnSun)    //Direct Proportion c=d*a/b
+                energy += Time.deltaTime;
+            else                    //Inverse Proportion c = a*b/d
+                energy -= Time.deltaTime * bulk;
+        }
+
+        if (hardEater)
+        {
+            
+        }
     }
     
-    private float Photosintetic(Transform sunTransform)
-    {
-        return DistanceBetween(gameObject.transform, sunTransform) * 0.1f; //Multiply var needed in genome.
-    }
-    
-
-    private float HardnessEater()
-    {
-        return 20;
-    }
-
-    private static float DistanceBetween(Transform a, Transform b) //<-E01_01_01 - distance_to_sun method renamed.
-    {
-        return Vector3.Distance(a.position, b.position);
-    }
-
 
     #endregion
+    
+    
+    
+    #endregion
+
 }

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Genome
 {
+    //https://github.com/shack3/EvoSimulator/tree/Documentation#52-genetic-characteristics
+    
     #region General-REF_GC_1
 
+    public bool photosynthetic;
+    
     public float Aging = 0.05f;
     public float Maximum_Bulk = 1f;
     public float Energy_cost_by_Bulk = 0.01f;
@@ -14,6 +18,8 @@ public class Genome
     #endregion
     
     #region Nutrition_Related-REF_GC_2
+
+    public bool hardEater;
     
     public float Ability_to_Eat_Hardness = 0;
     public float Efficiency_to_Digest_Hardness = 0;
