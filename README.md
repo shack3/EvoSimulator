@@ -51,7 +51,7 @@ RGC_3 - The genome is represented by a RGB color in the map
 * -General-(*REF_GC_1*)
 	* Aging : Probability of death by natural causes in each cycle
 	* Maximum Bulk : Defines the maximum bulk that a being can reach
-	* Energy cost by Bulk : Defines the energy cost each lice cycle for unity of bulk
+	* Energy cost by Bulk : Defines the energy cost each life cycle for unity of bulk
 	* Physical Hardness : Defines the hardness of the Bulk of the Beings
 	
 * -Nutrition Related-(*REF_GC_2*)
