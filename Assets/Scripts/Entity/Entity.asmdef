@@ -1,0 +1,16 @@
+{
+    "name": "Entity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c1a37bbd18d1da94b9853377f4014ff5"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
