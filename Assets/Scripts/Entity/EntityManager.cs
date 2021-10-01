@@ -1,62 +1,82 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Plastic.Antlr3.Runtime.Misc;
+using UnityEditor;
 using UnityEngine;
 
-
-delegate float HardnessEater();
 
 public class EntityManager : MonoBehaviour
 {
     private Rigidbody rb;
-    
-    #region REF_BC_1
-    
-    public int age;
+    private bool iGaveBirth = false;
+    private float cicleTime = 30;
+    public GameObject baby;
+
+    //All variables related to entities base characteristics
+    public int age, maxAge;
     public float energy, bulk;
-    
+
     public float movementCost;
-    public float movementSpeed;   
-            
-    #endregion
-    
-    
+    public float movementSpeed;
+
+
     //Unity Functions
-    
+
     private void Awake()
     {
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
+        baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
         age = 1;
         energy = 100;
-        bulk = 1;
+        bulk = 2;
+        maxAge = 40;
     }
 
     private void Update()
     {
+        GetOlder();
         Eat();
+        OnDeath();
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Debug.Log("He pulsado la A.");
+            GameObject camera = GameObject.Find("Main Camera");
+            camera.GetComponent<CameraFollow>().FindOtherTarget();
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Sun")
+        if (other.CompareTag("Sun"))
             imOnSun = true;
+        
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Sun")
+        if (other.CompareTag("Sun"))
             imOnSun = false;
     }
+    
 
+    private void GetOlder()
+    {   //30s
+        
+        cicleTime -= Time.deltaTime;
+        if (cicleTime <= 0)
+        {    age++;
+            cicleTime = 30;
+        }
+    }
 
     #region Movement
-    
-    
+
     float horizontal;
     float vertical;
-    
+
     //Public methods for moving axis
     // W1 D1 A-1 S-1
     public void MoveForward()
@@ -87,7 +107,7 @@ public class EntityManager : MonoBehaviour
     {
         return horizontal * 10 + vertical;
     }
-    
+
     public void MoveReset()
     {
         horizontal = 0;
@@ -108,11 +128,10 @@ public class EntityManager : MonoBehaviour
 
         rb.MovePosition(q * (rb.transform.position - origin) + origin);
         transform.LookAt(Vector3.zero);
-
     }
 
     #endregion
-    
+
     /*private void Assign_Movement_Cost()
     {
         movementCost = 1 / (Genome.Maximum_Bulk - bulk);
@@ -124,70 +143,93 @@ public class EntityManager : MonoBehaviour
     }
     */
 
-    #region <-------------------------------> GENOME <-------------------------------
+    // <-------------------------------> GENOME <-------------------------------
+
+
+    #region Genetic Characteristics
 
     //https://github.com/shack3/EvoSimulator/tree/Documentation#52-genetic-characteristics
 
-    
-    
-    
-    #region General-REF_GC_1
-
+    //General-REF_GC_1
     public bool photosynthetic;
-    public bool imOnSun;
-    
+    private bool imOnSun;
+
     public float Aging = 0.05f;
     public float Maximum_Bulk = 1f;
     public float Energy_cost_by_Bulk = 0.01f;
     public float Physical_Hardness = 1f;
     public float Photosynthesis_Efficiency = 1;
-    
-    #endregion
-    
-    #region Nutrition_Related-REF_GC_2
 
+
+    //Nutrition_Related-REF_GC_2
     public bool hardEater;
-    
+
     public float Ability_to_Eat_Hardness = 0;
     public float Efficiency_to_Digest_Hardness = 0;
-    
-    
-    #endregion
-    
-    #region Reproduction_Related-REF_GC_3
 
+
+    //Reproduction_Related-REF_GC_3
     public int Birth_Cycles = 1;
     public float Reproduction_Efficiency = 1;
     public int Genetic_Sex = 1;
     public int Sexual_Maturity = 4;
-        
+
     #endregion
 
+    #region Nutrition
 
-
-
-    #region Eat
-    public void Eat()
+    private void Eat()
     {
         if (photosynthetic)
         {
-            if (imOnSun)    //Direct Proportion c=d*a/b
-                energy += Time.deltaTime;
-            else                    //Inverse Proportion c = a*b/d
+            if (imOnSun) //Direct Proportion c=d*a/b
+                energy += Time.deltaTime * Photosynthesis_Efficiency * bulk;
+            else //Inverse Proportion c = a*b/d
                 energy -= Time.deltaTime * bulk;
         }
 
         if (hardEater)
         {
-            
+            throw new NotImplementedException();
         }
     }
-    
 
     #endregion
-    
-    
-    
+
+    #region Reproduction
+
+    private void Spores()
+    {
+        var position = gameObject.transform.position;
+        var size = .5f;
+
+        Vector3 area = position + new Vector3(UnityEngine.Random.Range(-size / 2, size / 2),
+            UnityEngine.Random.Range(-size / 2, size / 2), UnityEngine.Random.Range(-size / 2, size / 2));
+        
+        
+        if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
+        {
+            Instantiate(baby, area, Quaternion.identity);
+            iGaveBirth = !iGaveBirth;
+        }
+    }
+
     #endregion
 
+
+    void OnDeath()
+    {
+        //Camera parent have to be null if his target is this gameobject.
+        GameObject camera = GameObject.Find("Main Camera");
+
+
+        if (energy < 0 || age > maxAge)
+        {
+            if (camera.transform.parent == gameObject.transform)
+                camera.GetComponent<CameraFollow>().FindOtherTarget();
+            
+            Destroy(gameObject, 2);
+        }
+            
+    }
 }

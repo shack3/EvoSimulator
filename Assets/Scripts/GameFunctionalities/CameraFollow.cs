@@ -3,30 +3,35 @@ using UnityEngine.Accessibility;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using Random = System.Random;
 
 public class CameraFollow : MonoBehaviour
 {
     public Transform entity, planet;
     public Material selected;
     public Volume volume;
-
+    
+    public int posicion, size;
+    public GameObject[] targets; 
 
     private float effectTime = 1f;
     public float interpolationRatio= 0.123f;
 
 
-    public bool activateChR = false;
+    private bool activateChR = false;
 
     private void Start()
     {
         planet = GameObject.FindGameObjectWithTag("Earth").transform;
+        posicion = 0;
     }
 
     private void Update()
     {
-       
         if (Input.GetMouseButtonDown(0))
         {
             
@@ -38,26 +43,27 @@ public class CameraFollow : MonoBehaviour
                 {
                     entity = hit.transform;
                     activateChR = true;
+                    
                 }
             }
         }
         transform.SetParent(entity);
-
+        
         if (transform.parent == entity)
             entity.GetComponent<MeshRenderer>().material = selected;
         
 
-        transform.position = Vector3.Lerp(transform.position, -(planet.position - entity.position) * 2, interpolationRatio);
+        transform.position = Vector3.Lerp(transform.position, -(planet.position - entity.position) * (2-entity.GetComponent<Transform>().localScale.x ), interpolationRatio);
         transform.LookAt(planet);
 
 
         
         if (activateChR)
-            chromaticEffect();
+            ChromaticEffect();
 
     }
-    
-    public void chromaticEffect()
+
+    private void ChromaticEffect()
     {
         ChromaticAberration chrA;
         
@@ -75,10 +81,24 @@ public class CameraFollow : MonoBehaviour
                 effectTime = 1f;
                 activateChR = false;
             }
-            
         }
-
     }
-   
+
+    public void FindOtherTarget()
+    {
+        targets = GameObject.FindGameObjectsWithTag("Entity");
+        size = targets.Length;
+        if (posicion < size)
+        {
+            entity = targets[posicion++].transform;
+            posicion++;
+        }
+        else
+        {
+            entity = targets[0].transform;
+            posicion = 0;
+        }
+            
+    }
 
 }
