@@ -112,7 +112,7 @@ Being activity that looks for gaining energy in order to survive
     * No need to interact between beings
     * Energy comes from the Sun
     * The amount of energy obtained from each life cycle is defined by:
-        * Distance between the sun and the being
+        * Being in the trigger area of the sun recieves energy.
         * The genetic Photosynthesis Efficiency 
         * Proportionally to the being Bulk
 
