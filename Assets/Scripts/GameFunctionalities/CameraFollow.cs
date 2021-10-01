@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour
     private float effectTime = 1f;
     public float interpolationRatio= 0.123f;
 
-
+    public bool findNewTarget = true;
     private bool activateChR = false;
 
     private void Start()
@@ -32,6 +32,9 @@ public class CameraFollow : MonoBehaviour
 
     private void Update()
     {
+        FindOtherTarget();
+        
+        
         if (Input.GetMouseButtonDown(0))
         {
             
@@ -60,6 +63,8 @@ public class CameraFollow : MonoBehaviour
         
         if (activateChR)
             ChromaticEffect();
+        
+        targets = GameObject.FindGameObjectsWithTag("Entity");
 
     }
 
@@ -86,19 +91,24 @@ public class CameraFollow : MonoBehaviour
 
     public void FindOtherTarget()
     {
-        targets = GameObject.FindGameObjectsWithTag("Entity");
+        
         size = targets.Length;
-        if (posicion < size)
+        if (findNewTarget == true)
         {
-            entity = targets[posicion++].transform;
-            posicion++;
-        }
-        else
-        {
-            entity = targets[0].transform;
-            posicion = 0;
-        }
+            activateChR = true;
+            if (posicion + 1 >= size)
+            {
+                entity = targets[0].transform;
+                posicion = 0;
+            }
+            else
+            {
+                posicion += 1;
+                entity = targets[posicion].transform;
+            }
             
+            findNewTarget = false;
+        }
     }
 
 }

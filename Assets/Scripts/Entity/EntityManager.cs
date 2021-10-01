@@ -38,14 +38,6 @@ public class EntityManager : MonoBehaviour
         GetOlder();
         Eat();
         OnDeath();
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log("He pulsado la A.");
-            GameObject camera = GameObject.Find("Main Camera");
-            camera.GetComponent<CameraFollow>().FindOtherTarget();
-        }
-        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -217,7 +209,7 @@ public class EntityManager : MonoBehaviour
     #endregion
 
 
-    void OnDeath()
+    private void OnDeath()
     {
         //Camera parent have to be null if his target is this gameobject.
         GameObject camera = GameObject.Find("Main Camera");
@@ -226,9 +218,14 @@ public class EntityManager : MonoBehaviour
         if (energy < 0 || age > maxAge)
         {
             if (camera.transform.parent == gameObject.transform)
-                camera.GetComponent<CameraFollow>().FindOtherTarget();
-            
-            Destroy(gameObject, 2);
+            {
+                camera.GetComponent<CameraFollow>().findNewTarget=true;
+                Destroy(gameObject, 1);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
             
     }
