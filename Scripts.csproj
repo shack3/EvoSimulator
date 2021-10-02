@@ -44,6 +44,8 @@
      <Compile Include="Assets\Scripts\GameFunctionalities\DebugCommandBase.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\DebugController.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\rotateAround.cs" />
+     <Compile Include="Assets\Scripts\GameFunctionalities\Genome.cs" />
+     <Compile Include="Assets\Scripts\GameFunctionalities\EntityManager.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\Selected.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\gravity.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\CameraFollow.cs" />

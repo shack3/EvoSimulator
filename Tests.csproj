@@ -649,10 +649,6 @@
       <Project>{8875d58f-b698-a04c-54f9-1d4edfdcc7ec}</Project>
       <Name>Scripts</Name>
     </ProjectReference>
-    <ProjectReference Include="Entity.csproj">
-      <Project>{ef51d1f9-9e2d-5ff4-6164-33b30f73de69}</Project>
-      <Name>Entity</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

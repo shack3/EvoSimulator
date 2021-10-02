@@ -36,6 +36,7 @@ public class EntityManager : MonoBehaviour
     private void Update()
     {
         GetOlder();
+        Mitosis();
         Eat();
         OnDeath();
     }
@@ -206,6 +207,16 @@ public class EntityManager : MonoBehaviour
         }
     }
 
+    private void Mitosis()
+    {
+        GameObject gb = (GameObject)Resources.Load("Entity");
+        gb.GetComponent<EntityManager>().photosynthetic = true;
+        if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
+        {
+            Instantiate(gb, transform.position, Quaternion.identity);
+            iGaveBirth = !iGaveBirth;
+        }
+    }
     #endregion
 
 

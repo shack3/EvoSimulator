@@ -1,13 +1,7 @@
 using UnityEngine;
-using UnityEngine.Accessibility;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using Random = System.Random;
+using UnityEngine.UI;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -16,8 +10,10 @@ public class CameraFollow : MonoBehaviour
     public Volume volume;
     
     public int posicion, size;
-    public GameObject[] targets; 
+    public GameObject[] targets;
 
+    private Text text;
+    
     private float effectTime = 1f;
     public float interpolationRatio= 0.123f;
 
@@ -27,6 +23,7 @@ public class CameraFollow : MonoBehaviour
     private void Start()
     {
         planet = GameObject.FindGameObjectWithTag("Earth").transform;
+        text = GameObject.Find("Text").GetComponent<Text>();
         posicion = 0;
     }
 
@@ -60,6 +57,10 @@ public class CameraFollow : MonoBehaviour
         transform.LookAt(planet);
 
 
+        text.text = "Age = " + entity.GetComponent<EntityManager>().age
+                             + "\nEnergy = "         + entity.GetComponent<EntityManager>().energy
+                             + "\nBulk = "           + entity.GetComponent<EntityManager>().bulk
+                             + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().photosynthetic;
         
         if (activateChR)
             ChromaticEffect();
