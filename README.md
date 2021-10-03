@@ -16,13 +16,13 @@ RO_5 - The modifications on the genetic code happens between generations base on
 * [x] Terminal for control command input
 * [x] Only Photosynthesis(*REF_NK_1*) allowed for entities
   * [x] Only entities in the collider of the ligth source will get energy
-* [ ] Only Mitosis / Bipartition (*REF_RK_4*) allowed for entities
+* [x] Only Mitosis / Bipartition (*REF_RK_4*) allowed for entities
 * [x] Entities Maximum Bulk = 1 unit
 * [ ] The energy espenditure in a lifecycle of the entities is defined by:
   * [ ] Reproduction Efficiency
   * [ ] Energy cost by Bulk
 * [x] The ligth origin rotates slowly around the map 
-  * [ ] The rotation exceeds the maximum time that the entity can survive without gaining energy
+  * [x] The rotation exceeds the maximum time that the entity can survive without gaining energy
 * [ ] AI neural network based for each entity
   * [ ] AI is part of the genome
   * [ ] The data created by the network would be storaged for future use
