@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\GameFunctionalities\Selected.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\gravity.cs" />
      <Compile Include="Assets\Scripts\GameFunctionalities\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\GameFunctionalities\LoadSystem.cs" />
      <None Include="Assets\Scripts\GameFunctionalities\GameFunctionalities.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>A:/UNITY/2021.1.22f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

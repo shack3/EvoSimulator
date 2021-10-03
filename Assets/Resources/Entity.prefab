@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7056193531875427127}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.115409225, y: 0.115409225, z: 0.115409225}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -127,18 +127,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baby: {fileID: 0}
   age: 0
-  energy: 0
-  bulk: 0
+  maxAge: 7
+  energy: 155
+  bulk: 2.8852305
   movementCost: 0
   movementSpeed: 0
-  instancia: 0
-  photosynthetic: 0
-  imOnSun: 0
+  photosynthetic: 1
   Aging: 0.05
   Maximum_Bulk: 1
   Energy_cost_by_Bulk: 0.01
   Physical_Hardness: 1
-  Photosynthesis_Efficiency: 1
+  Photosynthesis_Efficiency: 1.158213
   hardEater: 0
   Ability_to_Eat_Hardness: 0
   Efficiency_to_Digest_Hardness: 0

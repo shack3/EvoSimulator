@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -12,7 +13,7 @@ public class CameraFollow : MonoBehaviour
     public int posicion, size;
     public GameObject[] targets;
 
-    private Text text;
+    private Text inspectorText, countText;
     
     private float effectTime = 1f;
     public float interpolationRatio= 0.123f;
@@ -20,10 +21,17 @@ public class CameraFollow : MonoBehaviour
     public bool findNewTarget = true;
     private bool activateChR = false;
 
+    private void Awake()
+    {
+        GUIStyle style = new GUIStyle ();
+        style.richText = true;
+    }
+
     private void Start()
     {
         planet = GameObject.FindGameObjectWithTag("Earth").transform;
-        text = GameObject.Find("Text").GetComponent<Text>();
+        inspectorText = GameObject.Find("InspectorText").GetComponent<Text>();
+        countText = GameObject.Find("CountText").GetComponent<Text>();
         posicion = 0;
     }
 
@@ -57,10 +65,13 @@ public class CameraFollow : MonoBehaviour
         transform.LookAt(planet);
 
 
-        text.text = "Age = " + entity.GetComponent<EntityManager>().age
+        inspectorText.text = "Age = " + entity.GetComponent<EntityManager>().age + "/" +entity.GetComponent<EntityManager>().maxAge 
                              + "\nEnergy = "         + entity.GetComponent<EntityManager>().energy
                              + "\nBulk = "           + entity.GetComponent<EntityManager>().bulk
                              + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().photosynthetic;
+
+        countText.text = "<color=red>Deaths = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount + "</color>"
+                        + "\n<color=green>Births = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount + "</color>";
         
         if (activateChR)
             ChromaticEffect();

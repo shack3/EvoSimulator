@@ -27,10 +27,6 @@ public class EntityManager : MonoBehaviour
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
-        age = 1;
-        energy = 100;
-        bulk = 2;
-        maxAge = 40;
     }
 
     private void Update()
@@ -203,6 +199,7 @@ public class EntityManager : MonoBehaviour
         if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
         {
             Instantiate(baby, area, Quaternion.identity);
+            GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
             iGaveBirth = !iGaveBirth;
         }
     }
@@ -214,6 +211,7 @@ public class EntityManager : MonoBehaviour
         if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
         {
             Instantiate(gb, transform.position, Quaternion.identity);
+            GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
             iGaveBirth = !iGaveBirth;
         }
     }
@@ -226,8 +224,9 @@ public class EntityManager : MonoBehaviour
         GameObject camera = GameObject.Find("Main Camera");
 
 
-        if (energy < 0 || age > maxAge)
+        if (energy < 0 || age > maxAge)//Im dead?!?! :(
         {
+            GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount++;
             if (camera.transform.parent == gameObject.transform)
             {
                 camera.GetComponent<CameraFollow>().findNewTarget=true;
