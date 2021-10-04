@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using Random = System.Random;
 
 
 public class EntityManager : MonoBehaviour
@@ -195,10 +196,10 @@ public class EntityManager : MonoBehaviour
         Vector3 area = position + new Vector3(UnityEngine.Random.Range(-size / 2, size / 2),
             UnityEngine.Random.Range(-size / 2, size / 2), UnityEngine.Random.Range(-size / 2, size / 2));
         
-        
+        GameObject gb = (GameObject)Resources.Load("Entity");
         if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
         {
-            Instantiate(baby, area, Quaternion.identity);
+            InstantiateRandom(gb, area, Quaternion.identity);
             GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
             iGaveBirth = !iGaveBirth;
         }
@@ -210,11 +211,29 @@ public class EntityManager : MonoBehaviour
         gb.GetComponent<EntityManager>().photosynthetic = true;
         if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
         {
-            Instantiate(gb, transform.position, Quaternion.identity);
+            InstantiateRandom(gb, transform.position, Quaternion.identity);
             GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
             iGaveBirth = !iGaveBirth;
         }
     }
+
+    private void InstantiateRandom(GameObject gameObject, Vector3 position, Quaternion quaternion)
+    {
+        GameObject entityObject = (GameObject)(Resources.Load("Entity"));
+        var entityManager = entityObject.GetComponent<EntityManager>();
+        
+        entityManager.age = 0;
+        entityManager.bulk = UnityEngine.Random.Range(0.5f,3f);
+        entityManager.energy = UnityEngine.Random.Range(50,300);
+        entityManager.photosynthetic = true;
+        entityManager.Photosynthesis_Efficiency = UnityEngine.Random.Range(1f,2f);;
+        entityManager.maxAge = UnityEngine.Random.Range(5,120);
+        entityManager.Sexual_Maturity = UnityEngine.Random.Range(4, entityManager.maxAge / 2);
+
+        Instantiate(gameObject, position, quaternion);
+
+    }
+    
     #endregion
 
 

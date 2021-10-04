@@ -31,8 +31,8 @@ public class LoadSystem : MonoBehaviour
             entityManager.energy = UnityEngine.Random.Range(50,300);
             entityManager.photosynthetic = true;
             entityManager.Photosynthesis_Efficiency = UnityEngine.Random.Range(1f,2f);;
-            entityManager.maxAge = UnityEngine.Random.Range(5,120);;
-            
+            entityManager.maxAge = UnityEngine.Random.Range(5,120);
+            entityManager.Sexual_Maturity = UnityEngine.Random.Range(4, entityManager.maxAge / 2);
             
             
             //Entity size in comparation with the bulk

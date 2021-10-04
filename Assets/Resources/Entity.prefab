@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7056193531875427127}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.115409225, y: 0.115409225, z: 0.115409225}
+  m_LocalScale: {x: 0.08476655, y: 0.08476655, z: 0.08476655}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -127,9 +127,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baby: {fileID: 0}
   age: 0
-  maxAge: 7
-  energy: 155
-  bulk: 2.8852305
+  maxAge: 30
+  energy: 61
+  bulk: 1.2226347
   movementCost: 0
   movementSpeed: 0
   photosynthetic: 1
@@ -137,14 +137,14 @@ MonoBehaviour:
   Maximum_Bulk: 1
   Energy_cost_by_Bulk: 0.01
   Physical_Hardness: 1
-  Photosynthesis_Efficiency: 1.158213
+  Photosynthesis_Efficiency: 1.3104999
   hardEater: 0
   Ability_to_Eat_Hardness: 0
   Efficiency_to_Digest_Hardness: 0
   Birth_Cycles: 1
   Reproduction_Efficiency: 1
   Genetic_Sex: 1
-  Sexual_Maturity: 4
+  Sexual_Maturity: 6
 --- !u!54 &5479608071351507661
 Rigidbody:
   m_ObjectHideFlags: 0
