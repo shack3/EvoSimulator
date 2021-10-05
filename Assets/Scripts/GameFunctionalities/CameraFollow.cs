@@ -68,8 +68,8 @@ public class CameraFollow : MonoBehaviour
         inspectorText.text = "Age = " + entity.GetComponent<EntityManager>().age + "/" +entity.GetComponent<EntityManager>().maxAge 
                              + "\nEnergy = "         + entity.GetComponent<EntityManager>().energy
                              + "\nBulk = "           + entity.GetComponent<EntityManager>().bulk
-                             + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().photosynthetic
-                             + "\nSexual Maturity = " + entity.GetComponent<EntityManager>().Sexual_Maturity;
+                             + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().myGenome.photosynthetic
+                             + "\nSexual Maturity = " + entity.GetComponent<EntityManager>().myGenome.Sexual_Maturity;
 
         countText.text = "<color=red>Deaths = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount + "</color>"
                         + "\n<color=green>Births = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount + "</color>";

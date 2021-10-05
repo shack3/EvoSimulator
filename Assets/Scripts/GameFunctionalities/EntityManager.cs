@@ -9,9 +9,9 @@ using Random = System.Random;
 public class EntityManager : MonoBehaviour
 {
     private Rigidbody rb;
-    private bool iGaveBirth = false;
     private float cicleTime = 30;
     public GameObject baby;
+    public Genome myGenome;
 
     //All variables related to entities base characteristics
     public int age, maxAge;
@@ -19,6 +19,7 @@ public class EntityManager : MonoBehaviour
 
     public float movementCost;
     public float movementSpeed;
+    private bool imOnSun;
 
 
     //Unity Functions
@@ -28,6 +29,7 @@ public class EntityManager : MonoBehaviour
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
+        myGenome = new Genome();
     }
 
     private void Update()
@@ -35,33 +37,54 @@ public class EntityManager : MonoBehaviour
         GetOlder();
         Mitosis();
         Eat();
-        OnDeath();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Sun"))
-            imOnSun = true;
-        
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Sun"))
-            imOnSun = false;
-    }
+  
     
 
     private void GetOlder()
-    {   //30s
-        
-        cicleTime -= Time.deltaTime;
-        if (cicleTime <= 0)
-        {    age++;
-            cicleTime = 30;
+    {   //cycle times 30s
+        if (DeadByOld())
+        {
+            OnDeath();
+        }
+        else
+        {
+            EnergyConsumption();
+            if (energy > 0)
+            {
+                age += myGenome.Aging;
+            }
+            else
+            {
+                OnDeath();
+            }
         }
     }
 
+    public float EnergyConsumption()
+    {
+        energy -= Time.deltaTime * bulk;
+        return energy;
+    }
+    
+    
+    private Boolean DeadByOld()
+    {
+        cicleTime -= Time.deltaTime;
+        if (cicleTime <= 0)
+        {    
+            int dead_or_not = UnityEngine.Random.Range(0, 1000);
+            if (dead_or_not < age)
+            {
+                return true;
+            }
+            cicleTime = cicleTime;
+        }
+
+        return false;
+    }
+    
     #region Movement
 
     float horizontal;
@@ -122,72 +145,39 @@ public class EntityManager : MonoBehaviour
 
     #endregion
 
-    /*private void Assign_Movement_Cost()
-    {
-        movementCost = 1 / (Genome.Maximum_Bulk - bulk);
-    }
-
-    private void Assign_movementSpeed()
-    {
-        movementSpeed = energy / age;
-    }
-    */
-
-    // <-------------------------------> GENOME <-------------------------------
-
-
-    #region Genetic Characteristics
-
-    //https://github.com/shack3/EvoSimulator/tree/Documentation#52-genetic-characteristics
-
-    //General-REF_GC_1
-    public bool photosynthetic;
-    private bool imOnSun;
-
-    public float Aging = 0.05f;
-    public float Maximum_Bulk = 1f;
-    public float Energy_cost_by_Bulk = 0.01f;
-    public float Physical_Hardness = 1f;
-    public float Photosynthesis_Efficiency = 1;
-
-
-    //Nutrition_Related-REF_GC_2
-    public bool hardEater;
-
-    public float Ability_to_Eat_Hardness = 0;
-    public float Efficiency_to_Digest_Hardness = 0;
-
-
-    //Reproduction_Related-REF_GC_3
-    public int Birth_Cycles = 1;
-    public float Reproduction_Efficiency = 1;
-    public int Genetic_Sex = 1;
-    public int Sexual_Maturity = 4;
-
-    #endregion
-
     #region Nutrition
 
     private void Eat()
     {
-        if (photosynthetic)
+        if (myGenome.photosynthetic)
         {
             if (imOnSun) //Direct Proportion c=d*a/b
-                energy += Time.deltaTime * Photosynthesis_Efficiency * bulk;
-            else //Inverse Proportion c = a*b/d
-                energy -= Time.deltaTime * bulk;
+                energy += Time.deltaTime * myGenome.Photosynthesis_Efficiency * bulk;
         }
 
-        if (hardEater)
+        if (myGenome.hardEater)
         {
             throw new NotImplementedException();
         }
+    }   
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Sun"))
+            imOnSun = true;
+        
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Sun"))
+            imOnSun = false;
     }
 
     #endregion
 
     #region Reproduction
-
+/*
     private void Spores()
     {
         var position = gameObject.transform.position;
@@ -204,31 +194,30 @@ public class EntityManager : MonoBehaviour
             iGaveBirth = !iGaveBirth;
         }
     }
-
+*/
     private void Mitosis()
     {
         GameObject gb = (GameObject)Resources.Load("Entity");
-        gb.GetComponent<EntityManager>().photosynthetic = true;
-        if (age > Sexual_Maturity && iGaveBirth == false && UnityEngine.Random.Range(0, 1000) == 7)
+        gb.GetComponent<EntityManager>().myGenome.photosynthetic = true;
+        if (age > myGenome.Sexual_Maturity && energy > myGenome.Reproduction_Efficiency)
         {
-            InstantiateRandom(gb, transform.position, Quaternion.identity);
+            NewBirth(gb, transform.position, Quaternion.identity);
             GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
-            iGaveBirth = !iGaveBirth;
+            OnDeath();
         }
     }
 
-    private void InstantiateRandom(GameObject gameObject, Vector3 position, Quaternion quaternion)
+    private void NewBirth(GameObject gameObject, Vector3 position, Quaternion quaternion)
     {
         GameObject entityObject = (GameObject)(Resources.Load("Entity"));
-        var entityManager = entityObject.GetComponent<EntityManager>();
+        var BirthEntityManager = entityObject.GetComponent<EntityManager>();
         
-        entityManager.age = 0;
-        entityManager.bulk = UnityEngine.Random.Range(0.5f,3f);
-        entityManager.energy = UnityEngine.Random.Range(50,300);
-        entityManager.photosynthetic = true;
-        entityManager.Photosynthesis_Efficiency = UnityEngine.Random.Range(1f,2f);;
-        entityManager.maxAge = UnityEngine.Random.Range(5,120);
-        entityManager.Sexual_Maturity = UnityEngine.Random.Range(4, entityManager.maxAge / 2);
+        BirthEntityManager.age = 0;
+        BirthEntityManager.bulk = UnityEngine.Random.Range(0.5f,3f);
+        BirthEntityManager.energy = UnityEngine.Random.Range(50,300);
+        BirthEntityManager.myGenome.photosynthetic = true;
+        BirthEntityManager.myGenome.Photosynthesis_Efficiency = UnityEngine.Random.Range(1f,2f);;
+        BirthEntityManager.myGenome.Sexual_Maturity = 4;//UnityEngine.Random.Range();
 
         Instantiate(gameObject, position, quaternion);
 
