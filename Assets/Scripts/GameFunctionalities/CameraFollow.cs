@@ -65,11 +65,11 @@ public class CameraFollow : MonoBehaviour
         transform.LookAt(planet);
 
 
-        inspectorText.text = "Age = " + entity.GetComponent<EntityManager>().age + "/" +entity.GetComponent<EntityManager>().maxAge 
+        inspectorText.text = "Age = " + entity.GetComponent<EntityManager>().age + "/" 
                              + "\nEnergy = "         + entity.GetComponent<EntityManager>().energy
                              + "\nBulk = "           + entity.GetComponent<EntityManager>().bulk
-                             + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().myGenome.photosynthetic
-                             + "\nSexual Maturity = " + entity.GetComponent<EntityManager>().myGenome.Sexual_Maturity;
+                             + "\nPhotosynthetic = " + entity.GetComponent<EntityManager>().MyGenomeManager.PhotosynthesisEfficiency
+                             + "\nSexual Maturity = " + entity.GetComponent<EntityManager>().MyGenomeManager.SexualMaturity;
 
         countText.text = "<color=red>Deaths = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount + "</color>"
                         + "\n<color=green>Births = " + GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount + "</color>";

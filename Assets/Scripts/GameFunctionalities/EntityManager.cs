@@ -11,11 +11,10 @@ public class EntityManager : MonoBehaviour
     private Rigidbody rb;
     private float cicleTime = 30;
     public GameObject baby;
-    public Genome myGenome;
+    public GenomeManager MyGenomeManager;
 
     //All variables related to entities base characteristics
-    public int age, maxAge;
-    public float energy, bulk;
+    public float energy, bulk,age;
 
     public float movementCost;
     public float movementSpeed;
@@ -29,7 +28,7 @@ public class EntityManager : MonoBehaviour
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
-        myGenome = new Genome();
+        MyGenomeManager = new GenomeManager();
     }
 
     private void Update()
@@ -53,7 +52,7 @@ public class EntityManager : MonoBehaviour
             EnergyConsumption();
             if (energy > 0)
             {
-                age += myGenome.Aging;
+                age += MyGenomeManager.Aging;
             }
             else
             {
@@ -149,16 +148,10 @@ public class EntityManager : MonoBehaviour
 
     private void Eat()
     {
-        if (myGenome.photosynthetic)
-        {
-            if (imOnSun) //Direct Proportion c=d*a/b
-                energy += Time.deltaTime * myGenome.Photosynthesis_Efficiency * bulk;
-        }
-
-        if (myGenome.hardEater)
-        {
-            throw new NotImplementedException();
-        }
+        if (imOnSun) //Direct Proportion c=d*a/b
+            energy += Time.deltaTime * MyGenomeManager.PhotosynthesisEfficiency * bulk;
+       
+        
     }   
     
     private void OnTriggerEnter(Collider other)
@@ -198,8 +191,7 @@ public class EntityManager : MonoBehaviour
     private void Mitosis()
     {
         GameObject gb = (GameObject)Resources.Load("Entity");
-        gb.GetComponent<EntityManager>().myGenome.photosynthetic = true;
-        if (age > myGenome.Sexual_Maturity && energy > myGenome.Reproduction_Efficiency)
+        if (age > MyGenomeManager.SexualMaturity && energy > MyGenomeManager.ReproductionEfficiency)
         {
             NewBirth(gb, transform.position, Quaternion.identity);
             GameObject.Find("GameManager").GetComponent<LoadSystem>().birthsCount++;
@@ -215,13 +207,12 @@ public class EntityManager : MonoBehaviour
         BirthEntityManager.age = 0;
         BirthEntityManager.bulk = UnityEngine.Random.Range(0.5f,3f);
         BirthEntityManager.energy = UnityEngine.Random.Range(50,300);
-        BirthEntityManager.myGenome.photosynthetic = true;
-        BirthEntityManager.myGenome.Photosynthesis_Efficiency = UnityEngine.Random.Range(1f,2f);;
-        BirthEntityManager.myGenome.Sexual_Maturity = 4;//UnityEngine.Random.Range();
+        BirthEntityManager.MyGenomeManager.Genome = MyGenomeManager.GenerateNewGenome(MyGenomeManager.Genome,MyGenomeManager.Genome);
 
         Instantiate(gameObject, position, quaternion);
 
     }
+    
     
     #endregion
 
@@ -230,21 +221,18 @@ public class EntityManager : MonoBehaviour
     {
         //Camera parent have to be null if his target is this gameobject.
         GameObject camera = GameObject.Find("Main Camera");
-
-
-        if (energy < 0 || age > maxAge)//Im dead?!?! :(
+        GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount++;
+        
+        if (camera.transform.parent == gameObject.transform)
         {
-            GameObject.Find("GameManager").GetComponent<LoadSystem>().deathsCount++;
-            if (camera.transform.parent == gameObject.transform)
-            {
-                camera.GetComponent<CameraFollow>().findNewTarget=true;
-                Destroy(gameObject, 1);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            camera.GetComponent<CameraFollow>().findNewTarget=true;
+            Destroy(gameObject, 1);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
             
     }
 }
