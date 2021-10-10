@@ -71,7 +71,6 @@ RGA_2 - Population generation is not forced
 RGA_3 - Population filtering will be done by the interaction between the entity and the environment or other entities  
 RGA_4 - Population generation is a decision of the individual AI restricted by rules  
 
-	
 # 6 Entities 
 All the information related with the characteristics and activities of the entities
 
@@ -175,8 +174,41 @@ In each reproductive activity that implies the born of a new entity, part of the
 	* The progeny appears from the female after the Birth Cycles
 	* The genome of the progeny is based in the two entities genome that participate in the activity
 
-#Methods
 
+# 7 Neural Network
+All the information related with the neural network for decision making of the entities  
+* RNN_1 - We have a neural network for each entity  
+* RNN_2 - The genetic part of the neural network  
+  * RNN_2.1 - Defines the connections between the neurons
+  * RNN_2.2 - Defines the number of layers and the connection between layers
+* RNN_3 - The knowledge part of the neural network  
+  * RNN_3.1 - Is part of the entity
+  * RNN_3.2 - Defines the bias of the neurons
+* RNN_4 - Calculation of results  
+  * RNN_4.1 - For each cycle, the neural network generates a set of results
+  * RNN_4.2 - Each set of result is calculated based on the defined connections between the neurons
+  * RNN_4.3 - In each set of results, the values are calculated first in base of the saved bias
+    * RNN_4.3.1 - The rest of the results of the set is based in randomization in range of the bias of the neurons
+* RNN_5 - Learning process
+  * RNN_5.1 - Generate a new results set based on the saved bias
+  * RNN_5.2 - Generate a number of result sets based in the saved bias modified by a random in a genetically determined range
+  * RNN_5.2 - Evaluates by the quality function which is the best expected result and save the bias that generates that result
+
+
+## 7.1 Inputs
+* Energy of the entity
+* Solar influence
+* Bulk
+* Movement specifications
+
+## 7.2 Outputs
+* Movement direction or standing still order
+
+## 7.3 Quality function
+The bigger the best  
+* Quality = Bulk + Energy ^ 2
+
+#Methods
 
 
 * E01 - eat (#REF_GC_2):  
