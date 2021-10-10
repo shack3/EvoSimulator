@@ -18,9 +18,8 @@ RO_5 - The modifications on the genetic code happens between generations base on
   * [x] Only entities in the collider of the light source will get energy
 * [x] Only Mitosis / Bipartition (*REF_RK_4*) allowed for entities
 * [x] Entities Maximum Bulk = 1 unit
-* [ ] The energy expenditure in a lifecycle of the entities is defined by:
-  * [ ] Reproduction Efficiency
-  * [ ] Energy cost by Bulk
+* [x] The energy expenditure in a lifecycle of the entities is defined by:
+  * [x] Energy cost by Bulk
 * [x] The light origin rotates slowly around the map 
   * [x] The rotation exceeds the maximum time that the entity can survive without gaining energy
 * [ ] AI neural network based for each entity
