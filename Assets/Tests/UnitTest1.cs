@@ -10,7 +10,7 @@ namespace Tests
     {
         public Transform prefab;
         [UnityTest]
-        public IEnumerator Test_Movement()
+        public IEnumerator TestMovement()
         {
             var gameGameObject = GameObject.Find("Entity");
         
@@ -45,7 +45,6 @@ namespace Tests
             }//aux = 0101
             yield return null;
         }
-
 
         private static string ToBinary(int myValue)
         {

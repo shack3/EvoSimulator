@@ -9,7 +9,7 @@ public class LoadSystem : MonoBehaviour
     public int birthsCount;
     public void Awake()
     {
-        InitiateSimulation(100);
+        InitiateSimulation(1000);
     }
 
 

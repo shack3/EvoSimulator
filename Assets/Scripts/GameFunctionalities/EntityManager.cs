@@ -226,7 +226,7 @@ public class EntityManager : MonoBehaviour
         if (camera.transform.parent == gameObject.transform)
         {
             camera.GetComponent<CameraFollow>().findNewTarget=true;
-            Destroy(gameObject, 1);
+            Destroy(gameObject);
         }
         else
         {
