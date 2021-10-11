@@ -35,7 +35,8 @@ public class GenomeManager
     #endregion
 
     public IDictionary<string, float> Genome = new Dictionary<string, float>();
-
+    public float[][] NeuralNetwork = new float[100][];
+    
     void awake()
     {
         Genome.Add("Aging", 5f);
@@ -62,6 +63,18 @@ public class GenomeManager
         ReproductionEfficiency = Genome["ReproductionEfficiency"];
         GeneticSex = Genome["GeneticSex"];
         SexualMaturity = Genome["SexualMaturity"];
+        
+        
+    }
+    
+    private void InitNeuralNetwork()
+    {
+        for (int pos = 0; pos < NeuralNetwork.Length; pos++)
+        {
+            NeuralNetwork[pos] = new float[100];
+            for (int pos2 = 0; pos2 < NeuralNetwork[pos].Length; pos2++)
+                NeuralNetwork[pos][pos2] = UnityEngine.Random.Range(0f,1f);;
+        }
     }
     
     public IDictionary<string, float> GenerateNewGenome(IDictionary<string, float> Progenitor1,
@@ -116,3 +129,22 @@ public class GenomeManager
     }
 
 }
+
+/*All the information related with the neural network for decision making of the entities
+RNN_1 - We have a neural network for each entity
+RNN_2 - The genetic part of the neural network
+RNN_2.1 - Defines the connections between the neurons
+RNN_2.2 - Defines the number of layers and the connection between layers
+RNN_3 - The knowledge part of the neural network
+RNN_3.1 - Is part of the entity
+RNN_3.2 - Defines the bias of the neurons
+RNN_4 - Calculation of results
+RNN_4.1 - For each cycle, the neural network generates a set of results
+RNN_4.2 - Each set of result is calculated based on the defined connections between the neurons
+RNN_4.3 - In each set of results, the values are calculated first in base of the saved bias
+RNN_4.3.1 - The rest of the results of the set is based in randomization in range of the bias of the neurons
+RNN_5 - Learning process
+RNN_5.1 - Generate a new results set based on the saved bias
+RNN_5.2 - Generate a number of result sets based in the saved bias modified by a random in a genetically determined range
+RNN_5.2 - Evaluates by the quality function which is the best expected result and save the bias that generates that result
+*/

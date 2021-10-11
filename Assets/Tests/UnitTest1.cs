@@ -46,6 +46,59 @@ namespace Tests
             yield return null;
         }
 
+        [UnityTest]
+        public IEnumerator TestInitNeuralNetwork()
+        {
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            var LocalNeuralNetworkBias = LocalEntityManager.NeuralNetworkBias;
+            float value = 0f;
+            for (int pos = 0; pos < LocalNeuralNetworkBias.Length; pos++)
+            {
+                LocalNeuralNetworkBias[pos] = new float[100];
+                for (int pos2 = 0; pos2 < LocalNeuralNetworkBias[pos].Length; pos2++)
+                    Assert.AreEqual(LocalNeuralNetworkBias[pos][pos2], 0f);
+            }
+            LocalEntityManager.InitNeuralBias();
+            for (int pos = 0; pos < LocalNeuralNetworkBias.Length; pos++)
+            {
+                LocalNeuralNetworkBias[pos] = new float[100];
+                for (int pos2 = 0; pos2 < LocalNeuralNetworkBias[pos].Length; pos2++)
+                    value = LocalNeuralNetworkBias[pos][pos2];
+                    Assert.GreaterOrEqual(value,-1f);
+                    Assert.LessOrEqual(value,1f);
+            }
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator TestEat()
+        {
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.imOnSun = true;
+            LocalEntityManager.energy = 0;
+            LocalEntityManager.bulk = 1f;
+            LocalEntityManager.MyGenomeManager = new GenomeManager();
+            LocalEntityManager.MyGenomeManager.PhotosynthesisEfficiency = 1f;
+            Assert.AreEqual(LocalEntityManager.energy,0f);
+            LocalEntityManager.Eat(1f);
+            Assert.Greater(LocalEntityManager.energy,0f);
+            
+            yield return null;
+        }
+
+        [UnityTest]
+        public IEnumerator TestDeadByOld()
+        {
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.cicleTime = 30;
+            Assert.False(LocalEntityManager.DeadByOld(25,1000));
+            LocalEntityManager.age = 1;
+            Assert.False(LocalEntityManager.DeadByOld(25,1));
+            LocalEntityManager.age = 100;
+            Assert.True(LocalEntityManager.DeadByOld(25,10));
+            yield return null;
+        }
+
         private static string ToBinary(int myValue)
         {
             var binVal = Convert.ToString(myValue, 2);

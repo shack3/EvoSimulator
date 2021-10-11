@@ -9,7 +9,7 @@ using Random = System.Random;
 public class EntityManager : MonoBehaviour
 {
     private Rigidbody rb;
-    private float cicleTime = 30;
+    public float cicleTime = 30;
     public GameObject baby;
     public GenomeManager MyGenomeManager;
 
@@ -18,8 +18,8 @@ public class EntityManager : MonoBehaviour
 
     public float movementCost;
     public float movementSpeed;
-    private bool imOnSun;
-
+    public bool imOnSun;
+    public float[][] NeuralNetworkBias = new float[100][];
 
     //Unity Functions
 
@@ -29,21 +29,19 @@ public class EntityManager : MonoBehaviour
         baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
         MyGenomeManager = new GenomeManager();
+        InitNeuralBias();
     }
 
     private void Update()
     {
         GetOlder();
         Mitosis();
-        Eat();
+        Eat(Time.deltaTime);
     }
-
-  
-    
 
     private void GetOlder()
     {   //cycle times 30s
-        if (DeadByOld())
+        if (DeadByOld(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
         {
             OnDeath();
         }
@@ -68,19 +66,17 @@ public class EntityManager : MonoBehaviour
     }
     
     
-    private Boolean DeadByOld()
+    public Boolean DeadByOld(float dTime,int random)
     {
-        cicleTime -= Time.deltaTime;
+        cicleTime -= dTime;
         if (cicleTime <= 0)
-        {    
-            int dead_or_not = UnityEngine.Random.Range(0, 1000);
-            if (dead_or_not < age)
+        {   
+            //int dead_or_not = UnityEngine.Random.Range(0, 1000);
+            if (random < age)
             {
                 return true;
             }
-            cicleTime = cicleTime;
         }
-
         return false;
     }
     
@@ -91,36 +87,36 @@ public class EntityManager : MonoBehaviour
 
     //Public methods for moving axis
     // W1 D1 A-1 S-1
-    public void MoveForward()
+    public void MoveForward()// 1 test
     {
         horizontal += 0;
         vertical += 1;
     }
 
-    public void MoveBackward()
+    public void MoveBackward()// 1 test
     {
         horizontal += 0;
         vertical += -1;
     }
 
-    public void MoveLeft()
+    public void MoveLeft()// 1 test
     {
         horizontal += -1;
         vertical += 0;
     }
 
-    public void MoveRight()
+    public void MoveRight()// 1 test
     {
         horizontal += 1;
         vertical += 0;
     }
 
-    public float MoveStatus()
+    public float MoveStatus()// 1 test
     {
         return horizontal * 10 + vertical;
     }
 
-    public void MoveReset()
+    public void MoveReset()// 1 test
     {
         horizontal = 0;
         vertical = 0;
@@ -146,12 +142,11 @@ public class EntityManager : MonoBehaviour
 
     #region Nutrition
 
-    private void Eat()
+    public void Eat(float dTime)// 1 test
     {
         if (imOnSun) //Direct Proportion c=d*a/b
-            energy += Time.deltaTime * MyGenomeManager.PhotosynthesisEfficiency * bulk;
-       
-        
+            energy += dTime * MyGenomeManager.PhotosynthesisEfficiency * bulk;
+        //Time.deltaTime * MyGenomeManager.PhotosynthesisEfficiency * bulk;
     }   
     
     private void OnTriggerEnter(Collider other)
@@ -216,7 +211,7 @@ public class EntityManager : MonoBehaviour
     
     #endregion
 
-
+    
     private void OnDeath()
     {
         //Camera parent have to be null if his target is this gameobject.
@@ -235,4 +230,25 @@ public class EntityManager : MonoBehaviour
         
             
     }
+
+    #region Neural
+    private void NewNeuralNetworkResult()
+    {
+        for (int pos = 0; pos < MyGenomeManager.NeuralNetwork.Length; pos++)
+        {
+            
+        }
+    }
+    
+    public void InitNeuralBias()// 1 test
+    {
+        for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
+        {
+            NeuralNetworkBias[pos] = new float[100];
+            for (int pos2 = 0; pos2 < NeuralNetworkBias[pos].Length; pos2++)
+                NeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f,1f);;
+        }
+    }
+    
+    #endregion
 }
