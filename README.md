@@ -211,7 +211,7 @@ All the information related with the neural network for decision making of the e
 Function that defines the operation in each neuron
 With inputs as X0 to XN
 With Bias as Y
-With result as Z
+With result as Z  
 Z = SIN(SUM(Xn*Y)) FOR n in range 0,N
 
 
