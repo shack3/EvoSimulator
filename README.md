@@ -188,7 +188,6 @@ All the information related with the neural network for decision making of the e
     * RNN_4.1 - For each cycle, the neural network generates a set of results
     * RNN_4.2 - Each set of result is calculated based on the defined connections between the neurons
     * RNN_4.3 - In each set of results, the values are calculated first in base of the saved bias
-        * RNN_4.3.1 - The rest of the results of the set is based in randomization in range of the bias of the neurons
 * RNN_5 - Learning process
     * RNN_5.1 - Generate a new results set based on the saved bias
     * RNN_5.2 - Generate a number of result sets based in the saved bias modified by a random in a genetically determined range
