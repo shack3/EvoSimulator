@@ -233,9 +233,9 @@ With Bi as representation of the bias
 Example explication :   
 Starting from state A with a quality evaluation with value 4.  
 The entity generate a Bias with Id equal to 0.  
-The entity goes to state B with a quality evaluation with value 5 and a Id of Bias equal to 1 so it maintains the Bias that orders the activity.  
+The entity goes to state B with a quality evaluation with value 5 and an Id of Bias equal to 1 so it maintains the Bias that orders the activity.  
 The entity generate a Bias with Id equal to 1.  
-The entity goes to state C with a quality evaluation with value 4 and a Id of Bias equal to 2 so it maintains the Bias that orders the activity.  
+The entity goes to state C with a quality evaluation with value 4 and an Id of Bias equal to 2 so it maintains the Bias that orders the activity.  
 The entity discard the Bias 1 because it generates a less efficient result, so the entity returns to the Bias 0.  
 The entity generates a new Bias based en Bias 0.  
 In case of not discarding the bias, the entity generates the Bias based on Bias 1.  
