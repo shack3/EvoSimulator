@@ -99,6 +99,27 @@ namespace Tests
             yield return null;
         }
 
+        [UnityTest]
+        public IEnumerator TestGetOlder()
+        {
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.GetOlder(AuxMethod_ODA, AuxMethod_DBOA,1f,2);
+            
+            yield return null;
+        }
+
+        private Boolean AuxMethod_DBOA(float aux1,int aux2)
+        {
+            Assert.AreEqual(aux1,1f);
+            Assert.AreEqual(aux2,2);
+            return true;
+        }
+        
+        private void AuxMethod_ODA()
+        {
+            
+        }
+        
         private static string ToBinary(int myValue)
         {
             var binVal = Convert.ToString(myValue, 2);

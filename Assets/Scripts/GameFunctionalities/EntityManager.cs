@@ -22,6 +22,8 @@ public class EntityManager : MonoBehaviour
     public float[][] NeuralNetworkBias = new float[100][];
 
     //Unity Functions
+    public delegate void OnDeathAux();
+    public delegate Boolean DeathByOldAux(float dTime, int random);
 
     private void Awake()
     {
@@ -34,16 +36,18 @@ public class EntityManager : MonoBehaviour
 
     private void Update()
     {
-        GetOlder();
+        GetOlder(OnDeath,DeadByOld,Time.deltaTime,UnityEngine.Random.Range(0, 1000));
         Mitosis();
         Eat(Time.deltaTime);
     }
 
-    private void GetOlder()
+
+    public void GetOlder(OnDeathAux ODA,DeathByOldAux DBOA,float dTime,int random)
     {   //cycle times 30s
-        if (DeadByOld(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
+        //if (DBOA(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
+        if (DBOA(dTime,random))
         {
-            OnDeath();
+            ODA();
         }
         else
         {
@@ -54,7 +58,7 @@ public class EntityManager : MonoBehaviour
             }
             else
             {
-                OnDeath();
+                ODA();
             }
         }
     }
@@ -66,7 +70,7 @@ public class EntityManager : MonoBehaviour
     }
     
     
-    public Boolean DeadByOld(float dTime,int random)
+    public Boolean DeadByOld(float dTime,int random)// 1 test
     {
         cicleTime -= dTime;
         if (cicleTime <= 0)
@@ -227,8 +231,7 @@ public class EntityManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-            
+
     }
 
     #region Neural
