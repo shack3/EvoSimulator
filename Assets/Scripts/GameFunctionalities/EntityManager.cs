@@ -42,7 +42,7 @@ public class EntityManager : MonoBehaviour
     }
 
 
-    public void GetOlder(OnDeathAux ODA,DeathByOldAux DBOA,float dTime,int random)
+    public void GetOlder(OnDeathAux ODA,DeathByOldAux DBOA,float dTime,int random)// 1 test
     {   //cycle times 30s
         //if (DBOA(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
         if (DBOA(dTime,random))
@@ -51,7 +51,7 @@ public class EntityManager : MonoBehaviour
         }
         else
         {
-            EnergyConsumption();
+            EnergyConsumption(Time.deltaTime);
             if (energy > 0)
             {
                 age += MyGenomeManager.Aging;
@@ -63,9 +63,10 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public float EnergyConsumption()
+    public float EnergyConsumption(float dTime)
     {
-        energy -= Time.deltaTime * bulk;
+        //energy -= Time.deltaTime * bulk;
+        energy -= dTime * bulk;
         return energy;
     }
     
