@@ -35,7 +35,7 @@ public class GenomeManager
     #endregion
 
     public IDictionary<string, float> Genome = new Dictionary<string, float>();
-    public float[][] NeuralNetwork = new float[100][];
+    public float[][][] NeuralNetwork = new float[100][][];
     
     void awake()
     {
@@ -71,9 +71,15 @@ public class GenomeManager
     {
         for (int pos = 0; pos < NeuralNetwork.Length; pos++)
         {
-            NeuralNetwork[pos] = new float[100];
+            NeuralNetwork[pos] = new float[100][];
             for (int pos2 = 0; pos2 < NeuralNetwork[pos].Length; pos2++)
-                NeuralNetwork[pos][pos2] = UnityEngine.Random.Range(0f,1f);;
+            {
+                NeuralNetwork[pos][pos2] = new float[100];
+                for (int pos3 = 0; pos3 < NeuralNetwork[pos].Length; pos3++)
+                {
+                        NeuralNetwork[pos][pos2][pos3] = (float) UnityEngine.Random.Range(0, 1);
+                }
+            }
         }
     }
     

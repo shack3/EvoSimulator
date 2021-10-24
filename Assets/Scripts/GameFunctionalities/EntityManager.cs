@@ -21,6 +21,17 @@ public class EntityManager : MonoBehaviour
     public bool imOnSun;
     public float[][] NeuralNetworkBias = new float[100][];
 
+    public float[] ActivityNeurons = new float[6];
+
+    public float ActivitySelected;
+    /*
+     * 0 - MoveReset(StandStill) (Dont do anything)
+     * 1 - MoveForward
+     * 2 - MoveBackward
+     * 3 - MoveLeft
+     * 4 - MoveRight
+     * 5 - ReproductionActivity
+     */
     //Unity Functions
     public delegate void OnDeathAux();
     public delegate Boolean DeathByOldAux(float dTime, int random);
@@ -40,8 +51,7 @@ public class EntityManager : MonoBehaviour
         Mitosis();
         Eat(Time.deltaTime);
     }
-
-
+    
     public void GetOlder(OnDeathAux ODA,DeathByOldAux DBOA,float dTime,int random)// 1 test
     {   //cycle times 30s
         //if (DBOA(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
@@ -63,7 +73,7 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public float EnergyConsumption(float dTime)
+    public float EnergyConsumption(float dTime)// 1 test
     {
         //energy -= Time.deltaTime * bulk;
         energy -= dTime * bulk;
@@ -236,11 +246,63 @@ public class EntityManager : MonoBehaviour
     }
 
     #region Neural
-    private void NewNeuralNetworkResult()
+    public void NewNeuralNetworkResult()
     {
+        /*
+         * Getting the inputs in the first layer
+         */
+        float[] NeuralResults = new float[100];
+        float[] NewNeuralResults = new float[100];
+        float NeuralResult;
+        int ActivityToBeDone = 0;
+        float result;
+
+        float InputParameters = 0;
         for (int pos = 0; pos < MyGenomeManager.NeuralNetwork.Length; pos++)
         {
-            
+            InputParameters = Convert.ToSingle(imOnSun ? 1 : 0);
+            InputParameters *= NeuralNetworkBias[0][pos];
+            InputParameters *= energy;
+            InputParameters *= bulk;
+            NeuralResults[pos] += (float)Math.Sin(InputParameters);
+        }
+        
+        //Getting the results of the next 
+        for (int pos = 1; pos < MyGenomeManager.NeuralNetwork.Length - 1; pos++)
+        {
+            for (int pos2 = 0; pos2 < MyGenomeManager.NeuralNetwork.Length; pos2++)
+            {
+                NeuralResult = 0f;
+                for (int pos3 = 0; pos3 < MyGenomeManager.NeuralNetwork.Length; pos3++)
+                {
+                    if (MyGenomeManager.NeuralNetwork[pos][pos2][pos3] > (float) 0)
+                    {
+                        //NeuralResults[pos2] = NeuralResults[pos3] * NeuralNetworkBias[pos][pos2];
+                        NeuralResult += NeuralResults[pos3];
+                    }
+                }
+
+                NewNeuralResults[pos2] += (float) Math.Sin(NeuralResult * NeuralNetworkBias[pos][pos2]);
+            }
+
+            NeuralResults = NewNeuralResults;
+        }
+
+        //Getting the results of the last layer
+        NeuralResult = 0;
+        for (int pos = 0; pos < NeuralResults.Length; pos++)
+        {
+            NeuralResult += NeuralResults[pos];
+        }
+
+        result = 0;
+        for (int pos = 0; pos < ActivityNeurons.Length; pos++)
+        {
+            if (NeuralResult * ActivityNeurons[pos] > result)
+            {
+                result = NeuralResult * ActivityNeurons[pos];
+                ActivitySelected = pos;
+            }
         }
     }
     
@@ -248,9 +310,14 @@ public class EntityManager : MonoBehaviour
     {
         for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
         {
-            NeuralNetworkBias[pos] = new float[100];
+            NeuralNetworkBias[pos] = new float[NeuralNetworkBias.Length];
             for (int pos2 = 0; pos2 < NeuralNetworkBias[pos].Length; pos2++)
-                NeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f,1f);;
+                NeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f,1f);
+        }
+
+        for (int pos = 0; pos < ActivityNeurons.Length; pos++)
+        {
+            ActivityNeurons[pos] = UnityEngine.Random.Range(-1f,1f);
         }
     }
     
