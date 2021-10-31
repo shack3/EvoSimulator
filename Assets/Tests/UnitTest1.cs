@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -53,11 +54,15 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator TestInitNeuralNetwork()
+        public IEnumerator TestInitNeuralNetworkBias()
         {
             var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
             var LocalNeuralNetworkBias = LocalEntityManager.NeuralNetworkBias;
             float value = 0f;
+            for (int pos = 0; pos < LocalEntityManager.NeuralNetworkBias.Length; pos++)
+            {
+                Assert.AreEqual(LocalEntityManager.NeuralNetworkBias[pos], null);
+            }
             for (int pos = 0; pos < LocalNeuralNetworkBias.Length; pos++)
             {
                 LocalNeuralNetworkBias[pos] = new float[100];
@@ -74,7 +79,6 @@ namespace Tests
                 Assert.GreaterOrEqual(value, -1f);
                 Assert.LessOrEqual(value, 1f);
             }
-
             yield return null;
         }
 
@@ -147,6 +151,45 @@ namespace Tests
             yield return null;
         }
 
+        [UnityTest]
+        public IEnumerator TestNewNeuralNetworkResult()
+        {
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.energy = 100;
+            LocalEntityManager.bulk = 1;
+            LocalEntityManager.InitNeuralBias();
+            LocalEntityManager.MyGenomeManager.InitNeuralNetwork();
+            for (int pos = 0; pos < LocalEntityManager.NeuralNetworkBias.Length; pos++)
+            {
+                LocalEntityManager.NeuralNetworkBias[pos] = new float[LocalEntityManager.NeuralNetworkBias.Length];
+                for (int pos2 = 0; pos2 < LocalEntityManager.NeuralNetworkBias[pos].Length; pos2++)
+                {
+                    for (int pos3 = 0; pos3 < LocalEntityManager.MyGenomeManager.NeuralNetwork[pos].Length; pos3++)
+                    {
+                        LocalEntityManager.MyGenomeManager.NeuralNetwork[pos][pos2][pos3] = 1f;
+                    }
+                    LocalEntityManager.NeuralNetworkBias[pos][pos2] = 1f;
+                }
+            }
+            
+            for (int pos = 0; pos < LocalEntityManager.ActivityNeurons.Length; pos++)
+                LocalEntityManager.ActivityNeurons[pos] = 0f;
+
+            for (int pos = 0; pos < LocalEntityManager.ActivityNeurons.Length; pos++)
+            {
+                LocalEntityManager.ActivityNeurons[pos] = 1f;
+                if (pos > 0)
+                {
+                    LocalEntityManager.ActivityNeurons[pos - 1] = 0f;
+                }
+                LocalEntityManager.NewNeuralNetworkResult();
+                Assert.AreEqual(LocalEntityManager.ActivitySelected,pos,"check--"+pos);
+                Assert.NotZero(LocalEntityManager.NeuralResult);
+            }
+
+            yield return null;
+        }
+
         private static string ToBinary(int myValue)
         {
             var binVal = Convert.ToString(myValue, 2);
@@ -163,6 +206,3 @@ namespace Tests
 
     }
 }
-//949 - 40- tell
-//930 - 43
-//701 - 43

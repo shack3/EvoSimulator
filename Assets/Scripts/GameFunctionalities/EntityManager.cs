@@ -12,10 +12,10 @@ public class EntityManager : MonoBehaviour
     public float cicleTime = 30;
     public GameObject baby;
     public GenomeManager MyGenomeManager;
-
+    
     //All variables related to entities base characteristics
     public float energy, bulk,age;
-
+    public float NeuralResult;
     public float movementCost;
     public float movementSpeed;
     public bool imOnSun;
@@ -23,7 +23,7 @@ public class EntityManager : MonoBehaviour
 
     public float[] ActivityNeurons = new float[6];
 
-    public float ActivitySelected;
+    public int ActivitySelected;
     /*
      * 0 - MoveReset(StandStill) (Dont do anything)
      * 1 - MoveForward
@@ -253,7 +253,7 @@ public class EntityManager : MonoBehaviour
          */
         float[] NeuralResults = new float[100];
         float[] NewNeuralResults = new float[100];
-        float NeuralResult;
+        
         int ActivityToBeDone = 0;
         float result;
 
@@ -264,25 +264,25 @@ public class EntityManager : MonoBehaviour
             InputParameters *= NeuralNetworkBias[0][pos];
             InputParameters *= energy;
             InputParameters *= bulk;
-            NeuralResults[pos] += (float)Math.Sin(InputParameters);
+            NeuralResults[pos] += Math.Abs((float)Math.Sin(InputParameters* NeuralNetworkBias[0][pos]));
         }
         
         //Getting the results of the next 
-        for (int pos = 1; pos < MyGenomeManager.NeuralNetwork.Length - 1; pos++)
+        for (int pos = 1; pos < MyGenomeManager.NeuralNetwork.Length; pos++)
         {
             for (int pos2 = 0; pos2 < MyGenomeManager.NeuralNetwork.Length; pos2++)
             {
                 NeuralResult = 0f;
                 for (int pos3 = 0; pos3 < MyGenomeManager.NeuralNetwork.Length; pos3++)
                 {
-                    if (MyGenomeManager.NeuralNetwork[pos][pos2][pos3] > (float) 0)
+                    if (MyGenomeManager.NeuralNetwork[pos][pos2][pos3] >  0f)
                     {
                         //NeuralResults[pos2] = NeuralResults[pos3] * NeuralNetworkBias[pos][pos2];
                         NeuralResult += NeuralResults[pos3];
                     }
                 }
 
-                NewNeuralResults[pos2] += (float) Math.Sin(NeuralResult * NeuralNetworkBias[pos][pos2]);
+                NewNeuralResults[pos2] +=  Math.Abs((float) Math.Sin(NeuralResult * NeuralNetworkBias[pos][pos2]));
             }
 
             NeuralResults = NewNeuralResults;

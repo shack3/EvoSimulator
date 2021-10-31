@@ -67,7 +67,7 @@ public class GenomeManager
         
     }
     
-    private void InitNeuralNetwork()
+    public void InitNeuralNetwork()
     {
         for (int pos = 0; pos < NeuralNetwork.Length; pos++)
         {
