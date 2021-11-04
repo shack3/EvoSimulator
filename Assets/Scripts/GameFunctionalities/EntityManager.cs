@@ -15,12 +15,15 @@ public class EntityManager : MonoBehaviour
     
     //All variables related to entities base characteristics
     public float energy, bulk,age;
+    public float old_energy, old_bulk,old_age;
     public float NeuralResult;
     public float movementCost;
     public float movementSpeed;
     public bool imOnSun;
     public float[][] NeuralNetworkBias = new float[100][];
-
+    public float[][] OldNeuralNetworkBias = new float[100][];
+    public float[][] VeryOldNeuralNetworkBias = new float[100][];
+    
     public float[] ActivityNeurons = new float[6];
 
     public int ActivitySelected;
@@ -246,6 +249,38 @@ public class EntityManager : MonoBehaviour
     }
 
     #region Neural
+
+    public void Learning()
+    {
+        NeuralNetworkBias = new float[100][];
+
+        if ((old_age + old_energy + old_bulk) > age + energy + bulk)
+        {//new BIAS
+            NeuralNetworkBias = VeryOldNeuralNetworkBias;
+            OldNeuralNetworkBias = VeryOldNeuralNetworkBias;
+        }
+        else
+        {//reverting BIAS
+            VeryOldNeuralNetworkBias = OldNeuralNetworkBias;
+            OldNeuralNetworkBias = NeuralNetworkBias;
+        }
+        
+        for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
+        {
+            for (int pos2 = 0; pos2 < NeuralNetworkBias[pos].Length; pos2++)
+                if (UnityEngine.Random.Range(0,20) < 5)
+                    ModifyBias(pos,pos2);
+        }
+    }
+
+    public void ModifyBias(int posx, int posy)
+    {
+        float RefValue = NeuralNetworkBias[posy][posx];
+        float NewValue =
+            UnityEngine.Random.Range(RefValue * 0.9f, RefValue * 1.1f);
+        NeuralNetworkBias[posy][posx] = NewValue;
+    }
+    
     public void NewNeuralNetworkResult()
     {
         /*
