@@ -152,12 +152,83 @@ namespace Tests
         }
 
         [UnityTest]
+        public IEnumerator TestLearning()
+        {
+            float RefValue = 5f;
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.InitNeuralBias();
+            LocalEntityManager.MyGenomeManager = new GenomeManager();
+            LocalEntityManager.MyGenomeManager.LearningProbabilityMax = 100;
+            LocalEntityManager.MyGenomeManager.LearningProbability = 0;
+            
+            //PRECONDITIONS
+            LocalEntityManager.age = 1;
+            LocalEntityManager.energy = 1;
+            LocalEntityManager.bulk = 1;
+            LocalEntityManager.old_age = 0;
+            LocalEntityManager.old_energy = 0;
+            LocalEntityManager.old_bulk = 0;
+            
+            //1 iteration - better results
+            LocalEntityManager.NeuralNetworkBias[0][0] = RefValue;//refvalue to identify iteration
+            LocalEntityManager.Learning();
+            //our actual Bias maintained
+            Assert.AreEqual(RefValue, LocalEntityManager.NeuralNetworkBias[0][0]   , "check-1-0");
+            Assert.AreEqual(RefValue, LocalEntityManager.OldNeuralNetworkBias[0][0], "check-1-1");
+            
+            //2 iteration - better results
+            LocalEntityManager.age = 2;
+            LocalEntityManager.energy = 2;
+            LocalEntityManager.bulk = 2;
+            LocalEntityManager.NeuralNetworkBias[0][0] = RefValue+1;//refvalue to identify iteration
+            LocalEntityManager.Learning();
+            //our actual Bias maintained
+            /*
+             * Expected:
+             * Neural : RefValue+1
+             * Old : RefValue+1
+             * VeryOld : RefValue
+             */
+            Assert.AreEqual(RefValue+1, LocalEntityManager.NeuralNetworkBias[0][0]       , "check-2-0");
+            Assert.AreEqual(RefValue+1, LocalEntityManager.OldNeuralNetworkBias[0][0]    , "check-2-1");
+            Assert.AreEqual(RefValue  , LocalEntityManager.VeryOldNeuralNetworkBias[0][0], "check-2-2");
+            
+            //3 iteration - worse result
+            LocalEntityManager.old_age = 5;
+            LocalEntityManager.old_energy = 5;
+            LocalEntityManager.old_bulk = 5;
+            LocalEntityManager.NeuralNetworkBias[0][0] = RefValue+2;//refvalue to identify iteration
+            LocalEntityManager.Learning();
+            Assert.AreEqual(RefValue, LocalEntityManager.NeuralNetworkBias[0][0], "check-3-0");
+            
+            LocalEntityManager.Learning();
+            yield return null;
+        }
+        
+        [UnityTest]
+        public IEnumerator TestModifyBias()
+        {
+            float RefValue = 5f;
+            var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
+            LocalEntityManager.MyGenomeManager = new GenomeManager();
+            LocalEntityManager.MyGenomeManager.LearningProbability = 100;
+            LocalEntityManager.MyGenomeManager.LearningDeviation = 1;
+            LocalEntityManager.InitNeuralBias();
+            LocalEntityManager.NeuralNetworkBias[0][0] = RefValue;
+            LocalEntityManager.ModifyBias(0,0,1);
+            Assert.Greater(LocalEntityManager.NeuralNetworkBias[0][0],RefValue-LocalEntityManager.MyGenomeManager.LearningDeviation);
+            Assert.Less(LocalEntityManager.NeuralNetworkBias[0][0],RefValue+LocalEntityManager.MyGenomeManager.LearningDeviation);
+            yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator TestNewNeuralNetworkResult()
         {
             var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
             LocalEntityManager.energy = 100;
             LocalEntityManager.bulk = 1;
             LocalEntityManager.InitNeuralBias();
+            LocalEntityManager.MyGenomeManager = new GenomeManager();
             LocalEntityManager.MyGenomeManager.InitNeuralNetwork();
             for (int pos = 0; pos < LocalEntityManager.NeuralNetworkBias.Length; pos++)
             {

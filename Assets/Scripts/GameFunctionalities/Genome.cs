@@ -13,7 +13,10 @@ public class GenomeManager
     public float MaximumBulk;
     public float EnergyCostByBulk;
     public float PhysicalHardness;
-
+    public float LearningDeviation;
+    public float LearningProbability;
+    public float LearningProbabilityMax;
+        
     #endregion
 
     #region Nutrition_Related-REF_GC_2
@@ -51,7 +54,10 @@ public class GenomeManager
         Genome.Add("Aging", 5);
         Genome.Add("GeneticSex",1);
         Genome.Add("SexualMaturity",4);
-
+        Genome.Add("LearningDeviation",1);
+        Genome.Add("LearningProbability",4);
+        Genome.Add("LearningProbabilityMax",20);
+        
         Aging = Genome["Aging"];
         MaximumBulk = Genome["MaximumBulk"];
         EnergyCostByBulk = Genome["EnergyCostByBulk"];
@@ -63,8 +69,9 @@ public class GenomeManager
         ReproductionEfficiency = Genome["ReproductionEfficiency"];
         GeneticSex = Genome["GeneticSex"];
         SexualMaturity = Genome["SexualMaturity"];
-        
-        
+        LearningDeviation = Genome["LearningDeviation"];
+        LearningProbability = Genome["LearningProbability"];
+        LearningProbabilityMax = Genome["LearningProbabilityMax"];
     }
     
     public void InitNeuralNetwork()

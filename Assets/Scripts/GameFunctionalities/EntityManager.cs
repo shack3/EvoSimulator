@@ -252,33 +252,32 @@ public class EntityManager : MonoBehaviour
 
     public void Learning()
     {
-        NeuralNetworkBias = new float[100][];
-
-        if ((old_age + old_energy + old_bulk) > age + energy + bulk)
-        {//new BIAS
-            NeuralNetworkBias = VeryOldNeuralNetworkBias;
-            OldNeuralNetworkBias = VeryOldNeuralNetworkBias;
+        if (old_age + old_energy + old_bulk > age + energy + bulk)
+        {//reverting BIAS
+            VeryOldNeuralNetworkBias.CopyTo(NeuralNetworkBias,0);
+            VeryOldNeuralNetworkBias.CopyTo(OldNeuralNetworkBias,0);
         }
         else
-        {//reverting BIAS
-            VeryOldNeuralNetworkBias = OldNeuralNetworkBias;
-            OldNeuralNetworkBias = NeuralNetworkBias;
+        {//new BIAS
+            OldNeuralNetworkBias.CopyTo(VeryOldNeuralNetworkBias,0);
+            NeuralNetworkBias.CopyTo(OldNeuralNetworkBias,0);
         }
         
         for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
-        {
             for (int pos2 = 0; pos2 < NeuralNetworkBias[pos].Length; pos2++)
-                if (UnityEngine.Random.Range(0,20) < 5)
-                    ModifyBias(pos,pos2);
-        }
+                    ModifyBias(pos,pos2,(int) UnityEngine.Random.Range(0,MyGenomeManager.LearningProbabilityMax));
+        
     }
 
-    public void ModifyBias(int posx, int posy)
+    public void ModifyBias(int posx, int posy,int LearningValue)// 1 test
     {
-        float RefValue = NeuralNetworkBias[posy][posx];
-        float NewValue =
-            UnityEngine.Random.Range(RefValue * 0.9f, RefValue * 1.1f);
-        NeuralNetworkBias[posy][posx] = NewValue;
+        if (LearningValue < MyGenomeManager.LearningProbability)
+        {
+            float RefValue = NeuralNetworkBias[posy][posx];
+            float NewValue =
+                UnityEngine.Random.Range(RefValue - MyGenomeManager.LearningDeviation , RefValue + MyGenomeManager.LearningDeviation);
+            NeuralNetworkBias[posy][posx] = NewValue;
+        }
     }
     
     public void NewNeuralNetworkResult()
@@ -346,8 +345,14 @@ public class EntityManager : MonoBehaviour
         for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
         {
             NeuralNetworkBias[pos] = new float[NeuralNetworkBias.Length];
+            OldNeuralNetworkBias[pos] = new float[NeuralNetworkBias.Length];
+            VeryOldNeuralNetworkBias[pos] = new float[NeuralNetworkBias.Length];
             for (int pos2 = 0; pos2 < NeuralNetworkBias[pos].Length; pos2++)
-                NeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f,1f);
+            {
+                NeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f, 1f);
+                OldNeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f, 1f);
+                VeryOldNeuralNetworkBias[pos][pos2] = UnityEngine.Random.Range(-1f, 1f);
+            }
         }
 
         for (int pos = 0; pos < ActivityNeurons.Length; pos++)
