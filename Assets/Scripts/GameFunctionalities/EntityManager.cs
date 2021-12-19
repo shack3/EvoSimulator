@@ -252,15 +252,25 @@ public class EntityManager : MonoBehaviour
 
     public void Learning()
     {
+    //public float[][] NeuralNetworkBias = new float[100][];
+    //public float[][] OldNeuralNetworkBias = new float[100][];
+    //public float[][] VeryOldNeuralNetworkBias = new float[100][];
+    
         if (old_age + old_energy + old_bulk > age + energy + bulk)
         {//reverting BIAS
-            VeryOldNeuralNetworkBias.CopyTo(NeuralNetworkBias,0);
-            VeryOldNeuralNetworkBias.CopyTo(OldNeuralNetworkBias,0);
+            for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
+            {
+                VeryOldNeuralNetworkBias[pos].CopyTo(NeuralNetworkBias[pos],0);
+                VeryOldNeuralNetworkBias[pos].CopyTo(OldNeuralNetworkBias[pos],0);
+            }
         }
         else
         {//new BIAS
-            OldNeuralNetworkBias.CopyTo(VeryOldNeuralNetworkBias,0);
-            NeuralNetworkBias.CopyTo(OldNeuralNetworkBias,0);
+            for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
+            {
+                OldNeuralNetworkBias[pos].CopyTo(VeryOldNeuralNetworkBias[pos],0);
+                NeuralNetworkBias[pos].CopyTo(OldNeuralNetworkBias[pos],0);
+            }
         }
         
         for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)
