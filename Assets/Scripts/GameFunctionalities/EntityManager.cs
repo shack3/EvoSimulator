@@ -38,26 +38,98 @@ public class EntityManager : MonoBehaviour
     //Unity Functions
     public delegate void OnDeathAux();
     public delegate Boolean DeathByOldAux(float dTime, int random);
-
+    public delegate void GetOlderAux(OnDeathAux oda,DeathByOldAux dboa,float dTime,int random);
+    public delegate void EatAux(float dTime);
+    public delegate void LearningAux();
+    public delegate void NewNeuralNetworkResultAux();
+    public delegate void MoveResetAux();
+    public delegate void MoveForwardAux();
+    public delegate void MoveBackwardAux();
+    public delegate void MoveLeftAux();
+    public delegate void MoveRightAux();
+    public delegate void MitosisAux();
+   
+  
     private void Awake()
     {
         gameObject.GetComponent<gravity>().gravityTarget = GameObject.FindGameObjectWithTag("Earth").transform;
         baby = GameObject.Find("Entity");
         rb = GetComponent<Rigidbody>();
         MyGenomeManager = new GenomeManager();
+        MyGenomeManager.InitNeuralNetwork();
         InitNeuralBias();
-    }
+        
+    }   
 
     private void Update()
     {
-        GetOlder(OnDeath,DeadByOld,Time.deltaTime,UnityEngine.Random.Range(0, 1000));
-        Mitosis();
-        Eat(Time.deltaTime);
+        ToExecuteInUpdate(
+            GetOlder,
+            NewNeuralNetworkResult,
+            Eat,
+            Learning,
+            MoveReset,
+            MoveForward,
+            MoveBackward,
+            MoveLeft,
+            MoveRight,
+            Mitosis
+            );
     }
-    
+
+    public void ToExecuteInUpdate(
+        GetOlderAux GO,
+        NewNeuralNetworkResultAux NNNR,
+        EatAux EA,
+        LearningAux LEA,
+        MoveResetAux MR,
+        MoveForwardAux MF,
+        MoveBackwardAux MB,
+        MoveLeftAux ML,
+        MoveRightAux MRi,
+        MitosisAux Mito
+    )
+    {
+        GO(OnDeath,DeadByOld,Time.deltaTime,UnityEngine.Random.Range(0, 1000));
+        NNNR();//now we have the next activity selected
+        switch (ActivitySelected)
+        {
+            /*
+            * 0 - MoveReset(StandStill) (Dont do anything)
+            * 1 - MoveForward
+            * 2 - MoveBackward
+            * 3 - MoveLeft
+            * 4 - MoveRight
+            * 5 - ReproductionActivity
+            */
+            case 0:
+                MR();
+                break;
+            case 1:
+                MF();
+                break;
+            case 2:
+                MB();
+                break;
+            case 3:
+                ML();
+                break;
+            case 4:
+                MRi();
+                break;
+            case 5://reproduction activity
+                Mito();
+                break;
+            default:
+                MR();
+                break;
+        }
+        EA(Time.deltaTime);
+        LEA();
+    }
+
     public void GetOlder(OnDeathAux ODA,DeathByOldAux DBOA,float dTime,int random)// 1 test
-    {   //cycle times 30s
-        //if (DBOA(Time.deltaTime,UnityEngine.Random.Range(0, 1000)))
+    {  
         if (DBOA(dTime,random))
         {
             ODA();
@@ -201,7 +273,7 @@ public class EntityManager : MonoBehaviour
         }
     }
 */
-    private void Mitosis()
+public void Mitosis()
     {
         GameObject gb = (GameObject)Resources.Load("Entity");
         if (age > MyGenomeManager.SexualMaturity && energy > MyGenomeManager.ReproductionEfficiency)
@@ -249,13 +321,11 @@ public class EntityManager : MonoBehaviour
     }
 
     #region Neural
-
+    
+    
+    
     public void Learning()
     {
-    //public float[][] NeuralNetworkBias = new float[100][];
-    //public float[][] OldNeuralNetworkBias = new float[100][];
-    //public float[][] VeryOldNeuralNetworkBias = new float[100][];
-    
         if (old_age + old_energy + old_bulk > age + energy + bulk)
         {//reverting BIAS
             for (int pos = 0; pos < NeuralNetworkBias.Length; pos++)

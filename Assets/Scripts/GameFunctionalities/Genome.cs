@@ -72,6 +72,7 @@ public class GenomeManager
         LearningDeviation = Genome["LearningDeviation"];
         LearningProbability = Genome["LearningProbability"];
         LearningProbabilityMax = Genome["LearningProbabilityMax"];
+        InitNeuralNetwork();
     }
     
     public void InitNeuralNetwork()

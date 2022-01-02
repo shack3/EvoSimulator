@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Runtime.InteropServices;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -59,10 +58,6 @@ namespace Tests
             var LocalEntityManager = GameObject.Find("Entity").GetComponent<EntityManager>();
             var LocalNeuralNetworkBias = LocalEntityManager.NeuralNetworkBias;
             float value = 0f;
-            for (int pos = 0; pos < LocalEntityManager.NeuralNetworkBias.Length; pos++)
-            {
-                Assert.AreEqual(LocalEntityManager.NeuralNetworkBias[pos], null);
-            }
             for (int pos = 0; pos < LocalNeuralNetworkBias.Length; pos++)
             {
                 LocalNeuralNetworkBias[pos] = new float[100];
@@ -75,9 +70,11 @@ namespace Tests
             {
                 LocalNeuralNetworkBias[pos] = new float[100];
                 for (int pos2 = 0; pos2 < LocalNeuralNetworkBias[pos].Length; pos2++)
+                {
                     value = LocalNeuralNetworkBias[pos][pos2];
-                Assert.GreaterOrEqual(value, -1f);
-                Assert.LessOrEqual(value, 1f);
+                    Assert.GreaterOrEqual(value, -1f);
+                    Assert.LessOrEqual(value, 1f);
+                }
             }
             yield return null;
         }
