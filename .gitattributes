@@ -1,2 +1,37 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+Library/ScriptAssemblies filter=lfs diff=lfs merge=lfs -text
+Library/APIUpdater filter=lfs diff=lfs merge=lfs -text
+Library/AnnotationManager filter=lfs diff=lfs merge=lfs -text
+Library/ArtifactDB-lock filter=lfs diff=lfs merge=lfs -text
+Library/Artifacts filter=lfs diff=lfs merge=lfs -text
+Library/InspectorExpandedItems.asset filter=lfs diff=lfs merge=lfs -text
+Library/PackageManager filter=lfs diff=lfs merge=lfs -text
+Library/ArtifactDB filter=lfs diff=lfs merge=lfs -text
+Library/Bee filter=lfs diff=lfs merge=lfs -text
+Library/LastSceneManagerSetup.txt filter=lfs diff=lfs merge=lfs -text
+Library/BuildPlayer.prefs filter=lfs diff=lfs merge=lfs -text
+Library/BuildSettings.asset filter=lfs diff=lfs merge=lfs -text
+Library/EditorOnlyVirtualTextureState.json filter=lfs diff=lfs merge=lfs -text
+Library/expandedItems filter=lfs diff=lfs merge=lfs -text
+Library/EditorSnapSettings.asset filter=lfs diff=lfs merge=lfs -text
+Library/SceneVisibilityState.asset filter=lfs diff=lfs merge=lfs -text
+Library/SourceAssetDB-lock filter=lfs diff=lfs merge=lfs -text
+Library/EditorInstance.json filter=lfs diff=lfs merge=lfs -text
+Library/EditorOnlyScriptingSettings.json filter=lfs diff=lfs merge=lfs -text
+Library/EditorUserBuildSettings.asset filter=lfs diff=lfs merge=lfs -text
+Library/ShaderCache filter=lfs diff=lfs merge=lfs -text
+Library/StateCache filter=lfs diff=lfs merge=lfs -text
+Library/ScriptMapper filter=lfs diff=lfs merge=lfs -text
+Library/CurrentMaximizeLayout.dwlt filter=lfs diff=lfs merge=lfs -text
+Library/LibraryFormatVersion.txt filter=lfs diff=lfs merge=lfs -text
+Library/PackageCache filter=lfs diff=lfs merge=lfs -text
+Library/SourceAssetDB filter=lfs diff=lfs merge=lfs -text
+Library/SpriteAtlasDatabase.asset filter=lfs diff=lfs merge=lfs -text
+Library/TempArtifacts filter=lfs diff=lfs merge=lfs -text
+Library/CurrentLayout-default.dwlt filter=lfs diff=lfs merge=lfs -text
+Library/MonoManager.asset filter=lfs diff=lfs merge=lfs -text
+Library/Search filter=lfs diff=lfs merge=lfs -text
+Library/ShaderCache.db filter=lfs diff=lfs merge=lfs -text
+Library/Style.catalog filter=lfs diff=lfs merge=lfs -text
+Library/ filter=lfs diff=lfs merge=lfs -text
